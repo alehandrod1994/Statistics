@@ -126,7 +126,9 @@ namespace Statistics
                 InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ДИСК N", diskN.ToString());
 
             //Сохранить           
-            newFileName = "Статистика_" + month + "_" + year + ".xlsx";
+            //newFileName = "Статистика_" + month + "_" + year + ".xlsx";
+            string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
+            newFileName = $"Статистика (от {date}).xlsx";
             error = Save(app, ObjWorkBook, error);
 
             return error;
