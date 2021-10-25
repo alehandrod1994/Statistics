@@ -48,6 +48,7 @@
             this.btn30m = new System.Windows.Forms.PictureBox();
             this.btnCalculate = new System.Windows.Forms.PictureBox();
             this.imgProgressBar_0 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.imgProgressBar_100)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStatistics)).BeginInit();
@@ -56,6 +57,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btn30m)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCalculate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgProgressBar_0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxMonth
@@ -308,12 +310,23 @@
             this.imgProgressBar_0.TabStop = false;
             this.imgProgressBar_0.Visible = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Statistics.Properties.Resources.btn_statistics_normal;
+            this.pictureBox1.Location = new System.Drawing.Point(334, 219);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(200, 45);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 57;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Green;
             this.ClientSize = new System.Drawing.Size(868, 482);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.imgProgressBar_100);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnStatistics);
@@ -347,6 +360,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btn30m)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCalculate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgProgressBar_0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -373,6 +387,7 @@
         private System.Windows.Forms.PictureBox btnCancel;
         private System.Windows.Forms.PictureBox imgProgressBar_0;
         private System.Windows.Forms.PictureBox imgProgressBar_100;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
