@@ -55,6 +55,7 @@ namespace Statistics
                       && !files.Name.ToString().Contains("$") )
                 {
                     path = sourceFolder + nextFolder + @"\" + files.Name;
+                    fileName = files.Name;
                     fullPath = FillingPaths(fullPath, path);
 
                     break;
@@ -126,10 +127,14 @@ namespace Statistics
                 InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ДИСК N", diskN.ToString());
 
             //Сохранить           
-            //newFileName = "Статистика_" + month + "_" + year + ".xlsx";
-            string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
-            newFileName = $"Статистика (от {date}).xlsx";
+            newFileName = "Статистика_" + month + "_" + year + ".xlsx";
+            string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";           
+            pathFolder = Directory.GetCurrentDirectory() + @"\";        
+            
             error = Save(app, ObjWorkBook, error);
+
+            // TODO: Создание папки _backup, если её нет.
+            File.Replace(newFileName, fileName, @"_backup\Статистика (от " + date + ").xlsx");
 
             return error;
         }
@@ -217,6 +222,8 @@ namespace Statistics
             //Сохранить
             newFileName = "Статистика_" + day1 + "." + monthNum1 + ".-" + day2 + "." + monthNum2 + "." + year2 + ".xlsx";
             error = Save(app, ObjWorkBook, error);
+            // TODO: Создание папки _backup, если её нет.
+            // TODO: Замена и _backup.
 
             return error;
         }
@@ -225,19 +232,19 @@ namespace Statistics
 
         private string Save(Excel.Application app, Excel.Workbook ObjWorkBook, string error)
         {
-            int index = 0;
-            int lastIndex = -1;
+            //int index = 0;
+            //int lastIndex = -1;
 
-            while (index > -1)
-            {
-                index = path.IndexOf((@"\"), index + 1);
-                if (index > -1)
-                {
-                    lastIndex = index;
-                }
-            }
+            //while (index > -1)
+            //{
+            //    index = path.IndexOf((@"\"), index + 1);
+            //    if (index > -1)
+            //    {
+            //        lastIndex = index;
+            //    }
+            //}
 
-            pathFolder = path.Remove(lastIndex + 1);
+            //pathFolder = path.Remove(lastIndex + 1);
             try
             {
                 ObjWorkBook.SaveAs(pathFolder + newFileName);

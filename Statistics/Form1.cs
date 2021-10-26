@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Statistics
 {
@@ -304,7 +305,7 @@ namespace Statistics
 
         private void btn30m_Click(object sender, EventArgs e)
         {
-            listBoxPath.Items[0] = cars.Import(listBoxPath.Items[0].ToString());           
+            listBoxPath.Items[0] = cars.Import(listBoxPath.Items[0].ToString());
         }
 
         private void btnKPI_Click(object sender, EventArgs e)

@@ -7,6 +7,7 @@ namespace Statistics
     public abstract class DocumentsForStatistics
     {
         public string path;
+        protected string fileName;
 
         public DocumentsForStatistics()
         {
@@ -27,6 +28,7 @@ namespace Statistics
                 try
                 {
                     path = ofd.FileName;
+                    fileName = ofd.SafeFileName;
 
                     //Заполнение путей в listboxPath
                     str = FillingPaths(str, path);
@@ -49,6 +51,7 @@ namespace Statistics
             if (file.ToUpper().Contains(key))
             {
                 path = file;
+                fileName = file;
                 fullPath = FillingPaths(fullPath, file);
             }
 
