@@ -134,7 +134,7 @@ namespace Statistics
             error = Save(app, ObjWorkBook, error);
 
             // Создание папки _backup, если её нет.
-            bool existBackupFolder = Directory.Exists(@"_backup");
+            bool existBackupFolder = Directory.Exists("_backup");
             if (!existBackupFolder)
             {
                 Directory.CreateDirectory("_backup");
@@ -224,12 +224,22 @@ namespace Statistics
             {
                 DrawBorders(ObjWorkSheet, rowPaste + 3, "I", rowPaste + listDate.Count + 1, "I");
             }
-
-            //Сохранить
+   
+            //Сохранить                       
+            string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
+            pathFolder = Directory.GetCurrentDirectory() + @"\";
             newFileName = "Статистика_" + day1 + "." + monthNum1 + ".-" + day2 + "." + monthNum2 + "." + year2 + ".xlsx";
+
             error = Save(app, ObjWorkBook, error);
-            // TODO: Создание папки _backup, если её нет.
-            // TODO: Замена и _backup.
+
+            // Создание папки _backup, если её нет.
+            bool existBackupFolder = Directory.Exists("_backup");
+            if (!existBackupFolder)
+            {
+                Directory.CreateDirectory("_backup");
+            }
+
+            File.Replace(newFileName, fileName, @"_backup\Статистика (от " + date + ").xlsx");
 
             return error;
         }
@@ -376,6 +386,7 @@ namespace Statistics
                                 ObjWorkSheet.Cells[i + rowCars, j] = listDate[i] + " - " + listCarsPermanent[i] + " (пост.)";
                         }
                         // TODO: горизонтальное выравнивание по левому краю все списки
+
                     }
                     else ObjWorkSheet.Cells[rowCars, j] = 0;
                     // TODO: горизонтальное выравнивание по центру (занести в предыдущий блок где результат = 0)
