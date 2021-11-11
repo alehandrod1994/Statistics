@@ -281,7 +281,7 @@ namespace Statistics
         private void FormSuccessfullyShow()
         {
             FormSuccessfully FormSuccessfully = new FormSuccessfully();
-            newPath = statistics.pathFolder + statistics.newFileName;
+            newPath = statistics.pathFolder + statistics.fileName;
             FormSuccessfully.Show(this);
         }
 

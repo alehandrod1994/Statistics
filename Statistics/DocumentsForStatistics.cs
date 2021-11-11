@@ -7,7 +7,7 @@ namespace Statistics
     public abstract class DocumentsForStatistics
     {
         public string path;
-        protected string fileName;
+        public string fileName;
 
         public DocumentsForStatistics()
         {

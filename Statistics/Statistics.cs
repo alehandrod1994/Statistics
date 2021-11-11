@@ -126,14 +126,20 @@ namespace Statistics
                 InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "DVD", dvd.ToString());
                 InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ДИСК N", diskN.ToString());
 
-            //Сохранить           
-            newFileName = "Статистика_" + month + "_" + year + ".xlsx";
+            //Сохранить                       
             string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";           
-            pathFolder = Directory.GetCurrentDirectory() + @"\";        
-            
+            pathFolder = Directory.GetCurrentDirectory() + @"\";
+            newFileName = "Статистика_" + month + "_" + year + ".xlsx";
+
             error = Save(app, ObjWorkBook, error);
 
-            // TODO: Создание папки _backup, если её нет.
+            // Создание папки _backup, если её нет.
+            bool existBackupFolder = Directory.Exists(@"_backup");
+            if (!existBackupFolder)
+            {
+                Directory.CreateDirectory("_backup");
+            }
+
             File.Replace(newFileName, fileName, @"_backup\Статистика (от " + date + ").xlsx");
 
             return error;
