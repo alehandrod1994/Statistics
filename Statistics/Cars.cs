@@ -49,6 +49,7 @@ namespace Statistics
             if (file.ToUpper().Contains(key1) || file.ToUpper().Contains(key2))
             {
                 path = file;
+                fileName = GetFileName(file);
                 fullPath = FillingPaths(fullPath, file);
             }
 

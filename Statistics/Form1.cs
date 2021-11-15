@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Statistics
 {
@@ -162,10 +163,8 @@ namespace Statistics
 
         //Статистика за месяц-----------------------------------------------------------------------------------------------
 
-        public void CalculateMonth()
+        public async void CalculateMonthAsync()
         {
-            if (!CheckingForErrors()) return;
-          
             CalculateStart(4);
 
             cancel = false;
@@ -176,39 +175,38 @@ namespace Statistics
             if (date.monthNum1.Length == 1)
             {
                 date.monthNum1 = "0" + date.monthNum1;
-            }        
+            }
 
             ProgressMove("Подсчёт", "'30м'");
-            errorTitle = cars.CalculateMonth(statistics, date.monthNum1, cancel);
+            //errorTitle = cars.CalculateMonth(statistics, date.monthNum1, cancel);
+            errorTitle = await Task.Run(() => cars.CalculateMonth(statistics, date.monthNum1, cancel));
             if (!CheckCalculateErrors()) return;
             Application.DoEvents();
 
             ProgressMove("Подсчёт", "'KPI'");
-            errorTitle = kpi.CalculateMonth(statistics, cancel);
+            errorTitle = await Task.Run(() => kpi.CalculateMonth(statistics, cancel));
             if (!CheckCalculateErrors()) return;
             Application.DoEvents();
 
             ProgressMove("Подсчёт", "'Запросов'");
-            errorTitle = videotapes.CalculateMonth(statistics, date.monthNum1, cancel);
+            errorTitle = await Task.Run(() => videotapes.CalculateMonth(statistics, date.monthNum1, cancel));
             if (!CheckCalculateErrors()) return;
             Application.DoEvents();
 
             ProgressMove("Сохранение", "'Статистики'");
-            errorTitle = statistics.CalculateMonth(date.monthNum1, date.month, date.year1, cancel);
+            errorTitle = await Task.Run(() => statistics.CalculateMonth(date.monthNum1, date.month, date.year1, cancel));
             if (!CheckCalculateErrors()) return;
             Application.DoEvents();
 
             CalculateStop();
 
             FormSuccessfullyShow();
-        }
+        }     
 
         //Статистика за неделю----------------------------------------------------------------------------------------------
 
-        public void CalculateWeek()
+        public async void CalculateWeekAsync()
         {
-            if (!CheckingForErrors()) return;
-
             CalculateStart(3);
 
             date.day1 = dTP1.Text.Substring(0, 2);
@@ -222,17 +220,17 @@ namespace Statistics
             date.month = comboBoxMonth.Items[Convert.ToInt32(date.monthNum2) - 1].ToString();
 
             ProgressMove("Подсчёт", "'30м'");
-            errorTitle = cars.CalculateWeek(statistics, date.day1, date.day2, date.monthNum1, date.monthNum2, date.year1, date.year2, cancel);
+            errorTitle = await Task.Run(() => cars.CalculateWeek(statistics, date.day1, date.day2, date.monthNum1, date.monthNum2, date.year1, date.year2, cancel));
             if (!CheckCalculateErrors()) return;
             Application.DoEvents();
 
             ProgressMove("Подсчёт", "'Запросов'");
-            errorTitle = videotapes.CalculateWeek(statistics, date.day1, date.day2, date.monthNum1, date.monthNum2, date.year1, date.year2, cancel);
+            errorTitle = await Task.Run(() => videotapes.CalculateWeek(statistics, date.day1, date.day2, date.monthNum1, date.monthNum2, date.year1, date.year2, cancel));
             if (!CheckCalculateErrors()) return;
             Application.DoEvents();
 
             ProgressMove("Сохранение", "'Статистики'");
-            errorTitle = statistics.CalculateWeek(date.day1, date.day2, date.monthNum1, date.monthNum2, date.month, date.year1, date.year2, cancel);
+            errorTitle = await Task.Run(() => statistics.CalculateWeek(date.day1, date.day2, date.monthNum1, date.monthNum2, date.month, date.year1, date.year2, cancel));
             if (!CheckCalculateErrors()) return;
             Application.DoEvents();
 
@@ -289,13 +287,18 @@ namespace Statistics
 
         private void btnCalculate_Click(object sender, EventArgs e)
         {
-            progress = new Progress();
+            if (!CheckingForErrors())
+            {
+                return;
+            }
+
+            progress = new Progress();           
 
             if (radioButtonMonth.Checked)
             {
-                CalculateMonth();
+                CalculateMonthAsync();
             }
-            else CalculateWeek();           
+            else CalculateWeekAsync();           
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

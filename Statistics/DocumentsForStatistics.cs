@@ -51,11 +51,30 @@ namespace Statistics
             if (file.ToUpper().Contains(key))
             {
                 path = file;
-                fileName = file;
+                fileName = GetFileName(file);
                 fullPath = FillingPaths(fullPath, file);
             }
 
             return fullPath;
+        }
+
+        //Возвращает имя файла----------------------------------------------------------------------------------------------
+
+        protected string GetFileName(string path)
+        {
+            int index = 0;
+            int lastIndex = -1;
+
+            while (index > -1)
+            {
+                index = path.IndexOf((@"\"), index + 1);
+                if (index > -1)
+                {
+                    lastIndex = index;
+                }
+            }
+
+            return fileName = path.Remove(0, lastIndex + 1);
         }
 
         //Возвращает день---------------------------------------------------------------------------------------------------

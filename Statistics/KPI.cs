@@ -58,6 +58,7 @@ namespace Statistics
                     if (file.Contains(listMonth[i]))
                     {
                         path = file;
+                        fileName = GetFileName(file);
                         fullPath = FillingPaths(fullPath, file);
 
                         break;
