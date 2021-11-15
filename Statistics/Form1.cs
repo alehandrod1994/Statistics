@@ -181,22 +181,18 @@ namespace Statistics
             //errorTitle = cars.CalculateMonth(statistics, date.monthNum1, cancel);
             errorTitle = await Task.Run(() => cars.CalculateMonth(statistics, date.monthNum1, cancel));
             if (!CheckCalculateErrors()) return;
-            Application.DoEvents();
 
             ProgressMove("Подсчёт", "'KPI'");
             errorTitle = await Task.Run(() => kpi.CalculateMonth(statistics, cancel));
             if (!CheckCalculateErrors()) return;
-            Application.DoEvents();
-
+ 
             ProgressMove("Подсчёт", "'Запросов'");
             errorTitle = await Task.Run(() => videotapes.CalculateMonth(statistics, date.monthNum1, cancel));
             if (!CheckCalculateErrors()) return;
-            Application.DoEvents();
 
             ProgressMove("Сохранение", "'Статистики'");
             errorTitle = await Task.Run(() => statistics.CalculateMonth(date.monthNum1, date.month, date.year1, cancel));
             if (!CheckCalculateErrors()) return;
-            Application.DoEvents();
 
             CalculateStop();
 
@@ -222,17 +218,14 @@ namespace Statistics
             ProgressMove("Подсчёт", "'30м'");
             errorTitle = await Task.Run(() => cars.CalculateWeek(statistics, date.day1, date.day2, date.monthNum1, date.monthNum2, date.year1, date.year2, cancel));
             if (!CheckCalculateErrors()) return;
-            Application.DoEvents();
 
             ProgressMove("Подсчёт", "'Запросов'");
             errorTitle = await Task.Run(() => videotapes.CalculateWeek(statistics, date.day1, date.day2, date.monthNum1, date.monthNum2, date.year1, date.year2, cancel));
             if (!CheckCalculateErrors()) return;
-            Application.DoEvents();
 
             ProgressMove("Сохранение", "'Статистики'");
             errorTitle = await Task.Run(() => statistics.CalculateWeek(date.day1, date.day2, date.monthNum1, date.monthNum2, date.month, date.year1, date.year2, cancel));
             if (!CheckCalculateErrors()) return;
-            Application.DoEvents();
 
             CalculateStop();
 
