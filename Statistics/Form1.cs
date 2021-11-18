@@ -163,7 +163,7 @@ namespace Statistics
 
         //Статистика за месяц-----------------------------------------------------------------------------------------------
 
-        public async void CalculateMonthAsync()
+        public async Task CalculateMonthAsync()
         {
             CalculateStart(4);
 
@@ -201,7 +201,7 @@ namespace Statistics
 
         //Статистика за неделю----------------------------------------------------------------------------------------------
 
-        public async void CalculateWeekAsync()
+        public async Task CalculateWeekAsync()
         {
             CalculateStart(3);
 
