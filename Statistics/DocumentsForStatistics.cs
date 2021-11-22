@@ -6,13 +6,10 @@ namespace Statistics
 {
     public abstract class DocumentsForStatistics
     {
-        public string path;
-        public string fileName;
+        public DocumentsForStatistics() => Path = "";
 
-        public DocumentsForStatistics()
-        {
-            path = "";
-        }       
+        public string Path { get; set; }
+        public string FileName { get; set; }
 
         //Загрузка файлов---------------------------------------------------------------------------------------------------
 
@@ -27,11 +24,11 @@ namespace Statistics
             {
                 try
                 {
-                    path = ofd.FileName;
-                    fileName = ofd.SafeFileName;
+                    Path = ofd.FileName;
+                    FileName = ofd.SafeFileName;
 
                     //Заполнение путей в listboxPath
-                    str = FillingPaths(str, path);
+                    str = FillingPaths(str, Path);
 
                     return str;
                 }
@@ -50,8 +47,8 @@ namespace Statistics
         {
             if (file.ToUpper().Contains(key))
             {
-                path = file;
-                fileName = GetFileName(file);
+                Path = file;
+                FileName = GetFileName(file);
                 fullPath = FillingPaths(fullPath, file);
             }
 
@@ -74,7 +71,7 @@ namespace Statistics
                 }
             }
 
-            return fileName = path.Remove(0, lastIndex + 1);
+            return FileName = path.Remove(0, lastIndex + 1);
         }
 
         //Возвращает день---------------------------------------------------------------------------------------------------

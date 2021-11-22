@@ -10,25 +10,25 @@ namespace Statistics
 {
     public class Statistics : DocumentsForStatistics
     {
-        public int beshoz;
-        public int abtb;
-        public int trudRas;
-        public int carsOneTime;
-        public int carsPermanent;
-        public int police;
-        public int anotherOrg;
-        public int airport;
-        public int viewing;
-        public int usb;
-        public int dvd;
-        public int diskN;
+        public int Beshoz { get; set; }
+        public int Abtb { get; set; }
+        public int TrudRas { get; set; }
+        public int CarsOneTime { get; set; }
+        public int CarsPermanent { get; set; }
+        public int Police { get; set; }
+        public int AnotherOrg { get; set; }
+        public int Airport { get; set; }
+        public int Viewing { get; set; }
+        public int Usb { get; set; }
+        public int Dvd { get; set; }
+        public int DiskN { get; set; }
 
-        public List<string> listDate;
-        public List<int> listCarsOneTime;
-        public List<int> listCarsPermanent;
+        public List<string> ListDate { get; set; }
+        public List<int> ListCarsOneTime { get; set; }
+        public List<int> ListCarsPermanent { get; set; }
 
-        public string newFileName;
-        public string pathFolder;
+        public string NewFileName { get; private set; }
+        public string PathFolder { get; private set; }
 
         //Автозагрузка файлов-----------------------------------------------------------------------------------------------
 
@@ -54,9 +54,9 @@ namespace Statistics
                       files.Name.ToString().ToUpper() == keyFile + " " + year + ".XLSX" || files.Name.ToString().ToUpper() == keyFile + "  " + year + ".XLSX")
                       && !files.Name.ToString().Contains("$") )
                 {
-                    path = sourceFolder + nextFolder + @"\" + files.Name;
-                    fileName = files.Name;
-                    fullPath = FillingPaths(fullPath, path);
+                    Path = sourceFolder + nextFolder + @"\" + files.Name;
+                    FileName = files.Name;
+                    fullPath = FillingPaths(fullPath, Path);
 
                     break;
                 }
@@ -77,7 +77,7 @@ namespace Statistics
             Excel.Workbook ObjWorkBook = null;
             try
             {
-                ObjWorkBook = app.Workbooks.Open(path);
+                ObjWorkBook = app.Workbooks.Open(Path);
             }
             catch
             {
@@ -113,23 +113,23 @@ namespace Statistics
                 row = 1;
             }
 
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "БЕСХОЗ", beshoz.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "РАЗОВ", carsOneTime.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ПОСТОЯН", carsPermanent.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "АБ/ТБ", abtb.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "МВД", police.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "СТОРОН", anotherOrg.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "А/П", airport.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ТРУД", trudRas.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ПРОСМОТР", viewing.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "USB", usb.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "DVD", dvd.ToString());
-                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ДИСК N", diskN.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "БЕСХОЗ", Beshoz.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "РАЗОВ", CarsOneTime.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ПОСТОЯН", CarsPermanent.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "АБ/ТБ", Abtb.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "МВД", Police.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "СТОРОН", AnotherOrg.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "А/П", Airport.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ТРУД", TrudRas.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ПРОСМОТР", Viewing.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "USB", Usb.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "DVD", Dvd.ToString());
+                InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ДИСК N", DiskN.ToString());
 
             //Сохранить                       
             string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";           
-            pathFolder = Directory.GetCurrentDirectory() + @"\";
-            newFileName = "Статистика_" + month + "_" + year + ".xlsx";
+            PathFolder = Directory.GetCurrentDirectory() + @"\";
+            NewFileName = "Статистика_" + month + "_" + year + ".xlsx";
 
             error = Save(app, ObjWorkBook, error);
 
@@ -140,7 +140,7 @@ namespace Statistics
                 Directory.CreateDirectory("_backup");
             }
 
-            File.Replace(newFileName, fileName, @"_backup\Статистика (от " + date + ").xlsx");
+            File.Replace(NewFileName, FileName, @"_backup\Статистика (от " + date + ").xlsx");
 
             return error;
         }
@@ -157,7 +157,7 @@ namespace Statistics
             Excel.Workbook ObjWorkBook = null;
             try
             {
-                ObjWorkBook = app.Workbooks.Open(path);
+                ObjWorkBook = app.Workbooks.Open(Path);
             }
             catch
             {
@@ -210,25 +210,25 @@ namespace Statistics
             ObjWorkSheet.Cells[rowPaste, 1] = day1 + "." + monthNum1 + "." + year1 + "-" + day2 + "." + monthNum2 + "." + year2;
             ObjWorkSheet.Cells[rowPaste + 2, 1] = month;
 
-            InsertData(ObjWorkSheet, rowPaste, 2, "МВД", police.ToString());
-            InsertData(ObjWorkSheet, rowPaste, 2, "СТОРОН", anotherOrg.ToString());
-            InsertData(ObjWorkSheet, rowPaste, 2, "А/П", airport.ToString());
-            InsertData(ObjWorkSheet, rowPaste, 2, "ПРОСМОТР", viewing.ToString());
-            InsertData(ObjWorkSheet, rowPaste, 2, "USB", usb.ToString());
-            InsertData(ObjWorkSheet, rowPaste, 2, "DVD", dvd.ToString());
-            InsertData(ObjWorkSheet, rowPaste, 2, "ДИСК N", diskN.ToString());
+            InsertData(ObjWorkSheet, rowPaste, 2, "МВД", Police.ToString());
+            InsertData(ObjWorkSheet, rowPaste, 2, "СТОРОН", AnotherOrg.ToString());
+            InsertData(ObjWorkSheet, rowPaste, 2, "А/П", Airport.ToString());
+            InsertData(ObjWorkSheet, rowPaste, 2, "ПРОСМОТР", Viewing.ToString());
+            InsertData(ObjWorkSheet, rowPaste, 2, "USB", Usb.ToString());
+            InsertData(ObjWorkSheet, rowPaste, 2, "DVD", Dvd.ToString());
+            InsertData(ObjWorkSheet, rowPaste, 2, "ДИСК N", DiskN.ToString());
             InsertData(ObjWorkSheet, rowPaste, 2, "30");
 
             //Рамки 30м
-            if (listDate.Count > 1)
+            if (ListDate.Count > 1)
             {
-                DrawBorders(ObjWorkSheet, rowPaste + 3, "I", rowPaste + listDate.Count + 1, "I");
+                DrawBorders(ObjWorkSheet, rowPaste + 3, "I", rowPaste + ListDate.Count + 1, "I");
             }
    
             //Сохранить                       
             string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
-            pathFolder = Directory.GetCurrentDirectory() + @"\";
-            newFileName = "Статистика_" + day1 + "." + monthNum1 + ".-" + day2 + "." + monthNum2 + "." + year2 + ".xlsx";
+            PathFolder = Directory.GetCurrentDirectory() + @"\";
+            NewFileName = "Статистика_" + day1 + "." + monthNum1 + ".-" + day2 + "." + monthNum2 + "." + year2 + ".xlsx";
 
             error = Save(app, ObjWorkBook, error);
 
@@ -239,7 +239,7 @@ namespace Statistics
                 Directory.CreateDirectory("_backup");
             }
 
-            File.Replace(newFileName, fileName, @"_backup\Статистика (от " + date + ").xlsx");
+            File.Replace(NewFileName, FileName, @"_backup\Статистика (от " + date + ").xlsx");
 
             return error;
         }
@@ -263,7 +263,7 @@ namespace Statistics
             //pathFolder = path.Remove(lastIndex + 1);
             try
             {
-                ObjWorkBook.SaveAs(pathFolder + newFileName);
+                ObjWorkBook.SaveAs(PathFolder + NewFileName);
             }
             catch
             {
@@ -374,16 +374,16 @@ namespace Statistics
                 {
                     int rowCars = startTableIndex + rowNum;
 
-                    if (listDate.Count > 0)
+                    if (ListDate.Count > 0)
                     {
-                        for (int i = 0; i < listDate.Count; i++)
+                        for (int i = 0; i < ListDate.Count; i++)
                         {
-                            if (listCarsOneTime[i] > 0 && listCarsPermanent[i] > 0)
-                                ObjWorkSheet.Cells[i + rowCars, j] = listDate[i] + " - " + listCarsOneTime[i] + " (раз.), " + listCarsPermanent[i] + " (пост.)";
-                            else if (listCarsOneTime[i] > 0)
-                                ObjWorkSheet.Cells[i + rowCars, j] = listDate[i] + " - " + listCarsOneTime[i] + " (раз.)";
-                            else if (listCarsPermanent[i] > 0)
-                                ObjWorkSheet.Cells[i + rowCars, j] = listDate[i] + " - " + listCarsPermanent[i] + " (пост.)";
+                            if (ListCarsOneTime[i] > 0 && ListCarsPermanent[i] > 0)
+                                ObjWorkSheet.Cells[i + rowCars, j] = ListDate[i] + " - " + ListCarsOneTime[i] + " (раз.), " + ListCarsPermanent[i] + " (пост.)";
+                            else if (ListCarsOneTime[i] > 0)
+                                ObjWorkSheet.Cells[i + rowCars, j] = ListDate[i] + " - " + ListCarsOneTime[i] + " (раз.)";
+                            else if (ListCarsPermanent[i] > 0)
+                                ObjWorkSheet.Cells[i + rowCars, j] = ListDate[i] + " - " + ListCarsPermanent[i] + " (пост.)";
                         }
                         // TODO: горизонтальное выравнивание по левому краю все списки
 

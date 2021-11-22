@@ -32,8 +32,8 @@ namespace Statistics
                 if ( (files.Name.ToString().ToUpper().Contains(keyFile1) || files.Name.ToString().ToUpper().Contains(month.ToUpper()))
                     && !files.Name.ToString().Contains("$") )
                 {
-                    path = sourceFolder + nextFolder + @"\" + files.Name;
-                    fullPath = FillingPaths(fullPath, path);
+                    Path = sourceFolder + nextFolder + @"\" + files.Name;
+                    fullPath = FillingPaths(fullPath, Path);
 
                     break;
                 }
@@ -48,7 +48,7 @@ namespace Statistics
         {
             if (file.ToUpper().Contains(key))
             {
-                path = file;
+                Path = file;
                 fullPath = FillingPaths(fullPath, file);
             }
             else
@@ -57,8 +57,8 @@ namespace Statistics
                 {
                     if (file.Contains(listMonth[i]))
                     {
-                        path = file;
-                        fileName = GetFileName(file);
+                        Path = file;
+                        FileName = GetFileName(file);
                         fullPath = FillingPaths(fullPath, file);
 
                         break;
@@ -73,9 +73,9 @@ namespace Statistics
 
         public string CalculateMonth(Statistics statistics, bool cancel)
         {
-            statistics.beshoz = 0;
-            statistics.abtb = 0;
-            statistics.trudRas = 0;
+            statistics.Beshoz = 0;
+            statistics.Abtb = 0;
+            statistics.TrudRas = 0;
             string error = "";
 
             if (cancel == true) return error = "cancel";
@@ -84,7 +84,7 @@ namespace Statistics
             Excel.Workbook ObjWorkBook = null;
             try
             {
-                ObjWorkBook = app.Workbooks.Open(path);
+                ObjWorkBook = app.Workbooks.Open(Path);
             }
             catch
             {
@@ -99,9 +99,9 @@ namespace Statistics
             {
                 if (Contains(ObjWorkSheet, i, 2, "ИТОГО"))
                 {
-                    statistics.beshoz = Convert.ToInt32(ToString(ObjWorkSheet, i, 4));
-                    statistics.abtb = Convert.ToInt32(ToString(ObjWorkSheet, i, 5));
-                    statistics.trudRas = Convert.ToInt32(ToString(ObjWorkSheet, i, 3));
+                    statistics.Beshoz = Convert.ToInt32(ToString(ObjWorkSheet, i, 4));
+                    statistics.Abtb = Convert.ToInt32(ToString(ObjWorkSheet, i, 5));
+                    statistics.TrudRas = Convert.ToInt32(ToString(ObjWorkSheet, i, 3));
 
                     break;
                 }

@@ -30,8 +30,8 @@ namespace Statistics
                 if (files.Name.ToString().ToUpper().Contains(keyFile1) && (files.Name.ToString().Contains(keyFile2))
                       && !files.Name.ToString().Contains("$"))
                 {
-                    path = sourceFolder + nextFolder + @"\" + files.Name;
-                    fullPath = FillingPaths(fullPath, path);
+                    Path = sourceFolder + nextFolder + @"\" + files.Name;
+                    fullPath = FillingPaths(fullPath, Path);
 
                     break;
                 }
@@ -44,13 +44,13 @@ namespace Statistics
 
         public string CalculateMonth(Statistics statistics, string monthNum, bool cancel)
         {
-            statistics.police = 0;
-            statistics.anotherOrg = 0;
-            statistics.airport = 0;
-            statistics.viewing = 0;
-            statistics.usb = 0;
-            statistics.dvd = 0;
-            statistics.diskN = 0;
+            statistics.Police = 0;
+            statistics.AnotherOrg = 0;
+            statistics.Airport = 0;
+            statistics.Viewing = 0;
+            statistics.Usb = 0;
+            statistics.Dvd = 0;
+            statistics.DiskN = 0;
             string error = "";
 
             if (cancel == true) return error = "cancel";
@@ -59,7 +59,7 @@ namespace Statistics
             Excel.Workbook ObjWorkBook = null;
             try
             {
-                ObjWorkBook = app.Workbooks.Open(path);
+                ObjWorkBook = app.Workbooks.Open(Path);
             }
             catch
             {
@@ -100,13 +100,13 @@ namespace Statistics
 
         public string CalculateWeek(Statistics statistics, string day1, string day2, string monthNum1, string monthNum2, string year1, string year2, bool cancel)
         {
-            statistics.police = 0;
-            statistics.anotherOrg = 0;
-            statistics.airport = 0;
-            statistics.viewing = 0;
-            statistics.usb = 0;
-            statistics.dvd = 0;
-            statistics.diskN = 0;
+            statistics.Police = 0;
+            statistics.AnotherOrg = 0;
+            statistics.Airport = 0;
+            statistics.Viewing = 0;
+            statistics.Usb = 0;
+            statistics.Dvd = 0;
+            statistics.DiskN = 0;
             string error = "";
 
             if (cancel == true) return error = "cancel";
@@ -115,7 +115,7 @@ namespace Statistics
             Excel.Workbook ObjWorkBook = null;
             try
             {
-                ObjWorkBook = app.Workbooks.Open(path);
+                ObjWorkBook = app.Workbooks.Open(Path);
             }
             catch
             {
@@ -184,11 +184,11 @@ namespace Statistics
         {
             if (Contains(ObjWorkSheet, i, 2, "З") && !Contains(ObjWorkSheet, i, 2, "ПОВТОР"))
             {
-                if (Contains(ObjWorkSheet, i, 9, "МВД") || Contains(ObjWorkSheet, i, 9, "ЛОП")) statistics.police++;
-                else if (Contains(ObjWorkSheet, i, 9, "СТОРОН")) statistics.anotherOrg++;
-                else if (Contains(ObjWorkSheet, i, 9, "А/П")) statistics.airport++;
+                if (Contains(ObjWorkSheet, i, 9, "МВД") || Contains(ObjWorkSheet, i, 9, "ЛОП")) statistics.Police++;
+                else if (Contains(ObjWorkSheet, i, 9, "СТОРОН")) statistics.AnotherOrg++;
+                else if (Contains(ObjWorkSheet, i, 9, "А/П")) statistics.Airport++;
             }
-            if (Contains(ObjWorkSheet, i, 2, "П-") || Contains(ObjWorkSheet, i, 2, "П ")) statistics.viewing++;
+            if (Contains(ObjWorkSheet, i, 2, "П-") || Contains(ObjWorkSheet, i, 2, "П ")) statistics.Viewing++;
         }
 
         //Общий алгоритм подсчёта статистики (выдано) ----------------------------------------------------------------------
@@ -197,11 +197,11 @@ namespace Statistics
         {
             if (!Contains(ObjWorkSheet, i, 7, "ПОВТОР") && !Contains(ObjWorkSheet, i, 8, "ПОВТОР"))
             {
-                if (Contains(ObjWorkSheet, i, 7, "USB") || Contains(ObjWorkSheet, i, 8, "USB")) statistics.usb++;
-                else if (Contains(ObjWorkSheet, i, 7, "ДИСК N") || Contains(ObjWorkSheet, i, 8, "ДИСК N")) statistics.diskN++;
+                if (Contains(ObjWorkSheet, i, 7, "USB") || Contains(ObjWorkSheet, i, 8, "USB")) statistics.Usb++;
+                else if (Contains(ObjWorkSheet, i, 7, "ДИСК N") || Contains(ObjWorkSheet, i, 8, "ДИСК N")) statistics.DiskN++;
                 else if (!Contains(ObjWorkSheet, i, 7, "ДИСК N") && !Contains(ObjWorkSheet, i, 8, "ДИСК N") &&
                     (Contains(ObjWorkSheet, i, 7, "DVD") || Contains(ObjWorkSheet, i, 7, "CD") || Contains(ObjWorkSheet, i, 7, "ДИСК") ||
-                     Contains(ObjWorkSheet, i, 8, "DVD") || Contains(ObjWorkSheet, i, 8, "CD") || Contains(ObjWorkSheet, i, 8, "ДИСК"))) statistics.dvd++;
+                     Contains(ObjWorkSheet, i, 8, "DVD") || Contains(ObjWorkSheet, i, 8, "CD") || Contains(ObjWorkSheet, i, 8, "ДИСК"))) statistics.Dvd++;
             }
         }
 

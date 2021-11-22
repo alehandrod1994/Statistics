@@ -32,8 +32,8 @@ namespace Statistics
                 if (files.Name.ToString().ToUpper().Contains(keyFile1) && files.Name.ToString().Contains(keyFile2) 
                     && !files.Name.ToString().Contains("$"))
                 {
-                    path = sourceFolder + nextFolder + @"\" + files.Name;
-                    fullPath = FillingPaths(fullPath, path);
+                    Path = sourceFolder + nextFolder + @"\" + files.Name;
+                    fullPath = FillingPaths(fullPath, Path);
 
                     break;
                 }
@@ -48,8 +48,8 @@ namespace Statistics
         {
             if (file.ToUpper().Contains(key1) || file.ToUpper().Contains(key2))
             {
-                path = file;
-                fileName = GetFileName(file);
+                Path = file;
+                FileName = GetFileName(file);
                 fullPath = FillingPaths(fullPath, file);
             }
 
@@ -60,8 +60,8 @@ namespace Statistics
 
         public string CalculateMonth(Statistics statistics, string monthNum, bool cancel)
         {
-            statistics.carsOneTime = 0;
-            statistics.carsPermanent = 0;
+            statistics.CarsOneTime = 0;
+            statistics.CarsPermanent = 0;
             string error = "";
 
             if (cancel == true) return error = "cancel";
@@ -70,7 +70,7 @@ namespace Statistics
             Excel.Workbook ObjWorkBook = null;
             try
             {
-                ObjWorkBook = app.Workbooks.Open(path);
+                ObjWorkBook = app.Workbooks.Open(Path);
             }
             catch
             {
@@ -107,9 +107,9 @@ namespace Statistics
 
         public string CalculateWeek(Statistics statistics, string day1, string day2, string monthNum1, string monthNum2, string year1, string year2, bool cancel)
         {
-            statistics.listDate = new List<string>();
-            statistics.listCarsOneTime = new List<int>();
-            statistics.listCarsPermanent = new List<int>();
+            statistics.ListDate = new List<string>();
+            statistics.ListCarsOneTime = new List<int>();
+            statistics.ListCarsPermanent = new List<int>();
             string error = "";
 
             if (cancel == true) return error = "cancel";
@@ -118,7 +118,7 @@ namespace Statistics
             Excel.Workbook ObjWorkBook = null;
             try
             {
-                ObjWorkBook = app.Workbooks.Open(path);
+                ObjWorkBook = app.Workbooks.Open(Path);
             }
             catch
             {
@@ -169,26 +169,26 @@ namespace Statistics
 
         private void CalculateBaseMonth(Excel.Worksheet ObjWorkSheet, int i, Statistics statistics)
         {
-            if (Contains(ObjWorkSheet, i, 7, "ПОСТ")) statistics.carsPermanent++;
-            else if (Contains(ObjWorkSheet, i, 7, "РАЗ")) statistics.carsOneTime++;
+            if (Contains(ObjWorkSheet, i, 7, "ПОСТ")) statistics.CarsPermanent++;
+            else if (Contains(ObjWorkSheet, i, 7, "РАЗ")) statistics.CarsOneTime++;
         }
 
         //Общий алгоритм подсчёта статистики за неделю----------------------------------------------------------------------
 
         private void CalculateBaseWeek(Excel.Worksheet ObjWorkSheet, int i, Statistics statistics)
         {
-            if ((statistics.listDate.Count > 0 && getDate(ObjWorkSheet, i, 1) != statistics.listDate.Last())
-                || statistics.listDate.Count == 0)
+            if ((statistics.ListDate.Count > 0 && getDate(ObjWorkSheet, i, 1) != statistics.ListDate.Last())
+                || statistics.ListDate.Count == 0)
             {
-                statistics.listDate.Add(getDate(ObjWorkSheet, i, 1));
-                statistics.listCarsPermanent.Add(0);
-                statistics.listCarsOneTime.Add(0);
+                statistics.ListDate.Add(getDate(ObjWorkSheet, i, 1));
+                statistics.ListCarsPermanent.Add(0);
+                statistics.ListCarsOneTime.Add(0);
             }
 
             if (Contains(ObjWorkSheet, i, 7, "ПОСТ"))
-                statistics.listCarsPermanent[statistics.listCarsPermanent.Count - 1] = statistics.listCarsPermanent.Last() + 1;
+                statistics.ListCarsPermanent[statistics.ListCarsPermanent.Count - 1] = statistics.ListCarsPermanent.Last() + 1;
             else if (Contains(ObjWorkSheet, i, 7, "РАЗ"))
-                statistics.listCarsOneTime[statistics.listCarsOneTime.Count - 1] = statistics.listCarsOneTime.Last() + 1;
+                statistics.ListCarsOneTime[statistics.ListCarsOneTime.Count - 1] = statistics.ListCarsOneTime.Last() + 1;
         }
 
     }

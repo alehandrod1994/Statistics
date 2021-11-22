@@ -13,9 +13,9 @@ namespace Statistics
         private void FormError_Load(object sender, EventArgs e)
         {
             Form1 Form1 = (Form1)Owner;
-            labelErrorTitle.Text = Form1.errorTitle;
-            labelErrorTitle.Height = Form1.errorTitleHeight;
-            labelErrorDescription.Text = Form1.errorDescription;
+            labelErrorTitle.Text = Form1.ErrorTitle;
+            labelErrorTitle.Height = Form1.ErrorTitleHeight;
+            labelErrorDescription.Text = Form1.ErrorDescription;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

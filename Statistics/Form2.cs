@@ -15,7 +15,7 @@ namespace Statistics
         private void Form2_Load(object sender, EventArgs e)
         {
             Form1 Form1 = (Form1)Owner;
-            labelPath3.Text = Form1.newPath;
+            labelPath3.Text = Form1.NewPath;
         }
 
         private void button4_Click(object sender, EventArgs e)
