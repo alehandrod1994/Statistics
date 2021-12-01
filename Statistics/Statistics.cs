@@ -127,20 +127,13 @@ namespace Statistics
                 InsertData(ObjWorkSheet, row, Convert.ToInt32(monthNum) + 1, "ДИСК N", DiskN.ToString());
 
             //Сохранить                       
-            string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";           
-            PathFolder = Directory.GetCurrentDirectory() + @"\";
+            string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
+            PathFolder = GetPathFolder();
             NewFileName = "Статистика_" + month + "_" + year + ".xlsx";
 
             error = Save(app, ObjWorkBook, error);
 
-            // Создание папки _backup, если её нет.
-            bool existBackupFolder = Directory.Exists("_backup");
-            if (!existBackupFolder)
-            {
-                Directory.CreateDirectory("_backup");
-            }
-
-            File.Replace(NewFileName, FileName, @"_backup\Статистика (от " + date + ").xlsx");
+            ReplaceFiles(date);
 
             return error;
         }
@@ -227,40 +220,33 @@ namespace Statistics
    
             //Сохранить                       
             string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
-            PathFolder = Directory.GetCurrentDirectory() + @"\";
+            PathFolder = GetPathFolder();
             NewFileName = "Статистика_" + day1 + "." + monthNum1 + ".-" + day2 + "." + monthNum2 + "." + year2 + ".xlsx";
 
             error = Save(app, ObjWorkBook, error);
 
-            // Создание папки _backup, если её нет.
-            bool existBackupFolder = Directory.Exists("_backup");
-            if (!existBackupFolder)
-            {
-                Directory.CreateDirectory("_backup");
-            }
-
-            File.Replace(NewFileName, FileName, @"_backup\Статистика (от " + date + ").xlsx");
+            ReplaceFiles(date);
 
             return error;
+        }
+
+        //Замена файлов-----------------------------------------------------------------------------------------------------
+
+        private void ReplaceFiles(string date)
+        {
+            bool existBackupFolder = Directory.Exists(PathFolder + "_backup");
+            if (!existBackupFolder)
+            {
+                Directory.CreateDirectory(PathFolder + "_backup");
+            }
+
+            File.Replace(PathFolder + NewFileName, PathFolder + FileName, PathFolder + @"_backup\Статистика (от " + date + ").xlsx");
         }
 
         //Сохранить---------------------------------------------------------------------------------------------------------
 
         private string Save(Excel.Application app, Excel.Workbook ObjWorkBook, string error)
         {
-            //int index = 0;
-            //int lastIndex = -1;
-
-            //while (index > -1)
-            //{
-            //    index = path.IndexOf((@"\"), index + 1);
-            //    if (index > -1)
-            //    {
-            //        lastIndex = index;
-            //    }
-            //}
-
-            //pathFolder = path.Remove(lastIndex + 1);
             try
             {
                 ObjWorkBook.SaveAs(PathFolder + NewFileName);
@@ -281,6 +267,43 @@ namespace Statistics
             }
 
             return error;
+        }
+
+        //Вернуть имя файла-------------------------------------------------------------------------------------------------
+
+        private string GetFileName()
+        {
+            int lastIndex = TrimPathFolderAndFIle();
+
+            return Path.Remove(0, lastIndex + 1);
+        }
+
+        //Разделить путь файла и папок--------------------------------------------------------------------------------------
+
+        private int TrimPathFolderAndFIle()
+        {
+            int index = 0;
+            int lastIndex = -1;
+
+            while (index > -1)
+            {
+                index = Path.IndexOf((@"\"), index + 1);
+                if (index > -1)
+                {
+                    lastIndex = index;
+                }
+            }
+
+            return lastIndex;
+        }
+
+        //Вернуть путь папки------------------------------------------------------------------------------------------------
+
+        private string GetPathFolder()
+        {
+            int lastIndex = TrimPathFolderAndFIle();
+
+            return Path.Remove(lastIndex + 1);
         }
 
         //Вставка пустых строк----------------------------------------------------------------------------------------------
