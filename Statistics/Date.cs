@@ -41,7 +41,7 @@ namespace Statistics
             string todayMonth = DateTime.Today.Month.ToString();
 
 
-            if (day < 10 && todayMonth == "01")
+            if (day < 10 && todayMonth == "1")
             {
                 Month = ListMonth[11];
                 Year1 = (Convert.ToInt32(DateTime.Today.Year) - 1).ToString();
