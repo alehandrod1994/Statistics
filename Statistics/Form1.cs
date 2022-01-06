@@ -46,8 +46,9 @@ namespace Statistics
             dTP1.Text = _date.Date1;
             dTP2.Text = _date.Date2;
 
-            int day = Convert.ToInt32(DateTime.Today.Day);
-            if (day > 27 || day < 3)
+            int daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
+            int today = Convert.ToInt32(DateTime.Today.Day);
+            if (today == daysInMonth || today < 3)
             {
                 radioButtonMonth.Checked = true;
             }
