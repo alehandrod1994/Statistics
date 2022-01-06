@@ -25,8 +25,8 @@ namespace Statistics
             _statistics = new Statistics();
             _date = new Date();
 
-            DateAutoImport();
-            DocumentsAutoImport();
+            AutoImportDate();
+            AutoImportDocuments();
         }
 
         public string NewPath { get; private set; }
@@ -36,7 +36,7 @@ namespace Statistics
         public int ErrorTitleHeight { get; private set; }
 
         //Автозагрузка дат--------------------------------------------------------------------------------------------------
-        private void DateAutoImport()
+        private void AutoImportDate()
         {
             _date.AutoImport();                                                                     
 
@@ -44,12 +44,22 @@ namespace Statistics
             tbMonth.Text = _date.Year1;
 
             dTP1.Text = _date.Date1;
-            dTP2.Text = _date.Date2;           
+            dTP2.Text = _date.Date2;
+
+            int day = Convert.ToInt32(DateTime.Today.Day);
+            if (day > 27 || day < 3)
+            {
+                radioButtonMonth.Checked = true;
+            }
+            else
+            {
+                radioButtonWeek.Checked = true;
+            }
         }
 
         //Автозагрузка файлов-----------------------------------------------------------------------------------------------
 
-        private void DocumentsAutoImport()
+        private void AutoImportDocuments()
         {
             try
             {
@@ -236,9 +246,9 @@ namespace Statistics
 
         //Начало подсчёта---------------------------------------------------------------------------------------------------
 
-        private void CalculateStart(int numDoc)
+        private void CalculateStart(int countDoc)
         {
-            _progress.StepLast = numDoc;
+            _progress.StepLast = countDoc;
 
             labelProgress.Visible = true;
             imgProgressBar_0.Visible = true;
