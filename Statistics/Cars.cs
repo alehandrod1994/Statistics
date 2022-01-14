@@ -83,7 +83,7 @@ namespace Statistics
 
             for (int i = 2; i < 1000; i++)
             {                            
-                if (getMonthNum(ObjWorkSheet, i, 1) == monthNum)
+                if (GetMonthNum(ObjWorkSheet, i, 1) == monthNum)
                 {
                     CalculateBaseMonth(ObjWorkSheet, i, statistics);
                 }
@@ -136,15 +136,15 @@ namespace Statistics
                 //else if (ToString(ObjWorkSheet, i, 1) == "" && ToString(ObjWorkSheet, i + 1, 1) == "") break;
 
                 if ( (monthNum1 != monthNum2 &&
-                      ((getYear(ObjWorkSheet, i, 1) == year1 &&
-                      getMonthNum(ObjWorkSheet, i, 1) == monthNum1 && Convert.ToInt32(getDay(ObjWorkSheet, i, 1)) >= Convert.ToInt32(day1)) ||
-                      (getYear(ObjWorkSheet, i, 1) == year2 &&
-                      getMonthNum(ObjWorkSheet, i, 1) == monthNum2 && Convert.ToInt32(getDay(ObjWorkSheet, i, 1)) <= Convert.ToInt32(day2))))
+                      ((GetYear(ObjWorkSheet, i, 1) == year1 &&
+                      GetMonthNum(ObjWorkSheet, i, 1) == monthNum1 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 1)) >= Convert.ToInt32(day1)) ||
+                      (GetYear(ObjWorkSheet, i, 1) == year2 &&
+                      GetMonthNum(ObjWorkSheet, i, 1) == monthNum2 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 1)) <= Convert.ToInt32(day2))))
                       ||
                       (monthNum1 == monthNum2) &&
-                      getMonthNum(ObjWorkSheet, i, 1) == monthNum1 &&
-                      Convert.ToInt32(getDay(ObjWorkSheet, i, 1)) >= Convert.ToInt32(day1) &&
-                      Convert.ToInt32(getDay(ObjWorkSheet, i, 1)) <= Convert.ToInt32(day2) )
+                      GetMonthNum(ObjWorkSheet, i, 1) == monthNum1 &&
+                      Convert.ToInt32(GetDay(ObjWorkSheet, i, 1)) >= Convert.ToInt32(day1) &&
+                      Convert.ToInt32(GetDay(ObjWorkSheet, i, 1)) <= Convert.ToInt32(day2) )
 
                 {
                     CalculateBaseWeek(ObjWorkSheet, i, statistics);
@@ -177,10 +177,10 @@ namespace Statistics
 
         private void CalculateBaseWeek(Excel.Worksheet ObjWorkSheet, int i, Statistics statistics)
         {
-            if ((statistics.ListDate.Count > 0 && getDate(ObjWorkSheet, i, 1) != statistics.ListDate.Last())
+            if ((statistics.ListDate.Count > 0 && GetDate(ObjWorkSheet, i, 1) != statistics.ListDate.Last())
                 || statistics.ListDate.Count == 0)
             {
-                statistics.ListDate.Add(getDate(ObjWorkSheet, i, 1));
+                statistics.ListDate.Add(GetDate(ObjWorkSheet, i, 1));
                 statistics.ListCarsPermanent.Add(0);
                 statistics.ListCarsOneTime.Add(0);
             }

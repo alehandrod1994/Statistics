@@ -76,7 +76,7 @@ namespace Statistics
 
         //Возвращает день---------------------------------------------------------------------------------------------------
 
-        public string getDay(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string GetDay(Excel.Worksheet ObjWorkSheet, int i, int j)
         {
             string str;
 
@@ -92,7 +92,7 @@ namespace Statistics
 
         //Возвращает номер месяца-------------------------------------------------------------------------------------------
 
-        public string getMonthNum(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string GetMonthNum(Excel.Worksheet ObjWorkSheet, int i, int j)
         {
             string str;
 
@@ -108,7 +108,7 @@ namespace Statistics
 
         //Возвращает год----------------------------------------------------------------------------------------------------
 
-        public string getYear(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string GetYear(Excel.Worksheet ObjWorkSheet, int i, int j)
         {
             string str;
             
@@ -129,7 +129,7 @@ namespace Statistics
 
         //Возвращает дату----------------------------------------------------------------------------------------------------
 
-        public string getDate(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string GetDate(Excel.Worksheet ObjWorkSheet, int i, int j)
         {
             string str;
 

@@ -72,11 +72,11 @@ namespace Statistics
 
             for (int i = 2; i < 1000; i++)
             {
-                if (getMonthNum(ObjWorkSheet, i, 6) == monthNum)
+                if (GetMonthNum(ObjWorkSheet, i, 6) == monthNum)
                 {
                     CalculateBaseIssued(ObjWorkSheet, i, statistics);
                 }
-                if (getMonthNum(ObjWorkSheet, i, 5) == monthNum)
+                if (GetMonthNum(ObjWorkSheet, i, 5) == monthNum)
                 {
                     CalculateBase(ObjWorkSheet, i, statistics);
                 }                                              
@@ -129,15 +129,15 @@ namespace Statistics
             for (int i = 2; i < 1000; i++)
             {
                if ((monthNum1 != monthNum2 &&
-                  ((getYear(ObjWorkSheet, i, 6) == year1 &&
-                  getMonthNum(ObjWorkSheet, i, 6) == monthNum1 && Convert.ToInt32(getDay(ObjWorkSheet, i, 6)) >= Convert.ToInt32(day1)) ||
-                  (getYear(ObjWorkSheet, i, 6) == year2 &&
-                  getMonthNum(ObjWorkSheet, i, 6) == monthNum2 && Convert.ToInt32(getDay(ObjWorkSheet, i, 6)) <= Convert.ToInt32(day2))))
+                  ((GetYear(ObjWorkSheet, i, 6) == year1 &&
+                  GetMonthNum(ObjWorkSheet, i, 6) == monthNum1 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 6)) >= Convert.ToInt32(day1)) ||
+                  (GetYear(ObjWorkSheet, i, 6) == year2 &&
+                  GetMonthNum(ObjWorkSheet, i, 6) == monthNum2 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 6)) <= Convert.ToInt32(day2))))
                   ||
                   (monthNum1 == monthNum2) &&
-                  getMonthNum(ObjWorkSheet, i, 6) == monthNum1 &&
-                  Convert.ToInt32(getDay(ObjWorkSheet, i, 6)) >= Convert.ToInt32(day1) &&
-                  Convert.ToInt32(getDay(ObjWorkSheet, i, 6)) <= Convert.ToInt32(day2))
+                  GetMonthNum(ObjWorkSheet, i, 6) == monthNum1 &&
+                  Convert.ToInt32(GetDay(ObjWorkSheet, i, 6)) >= Convert.ToInt32(day1) &&
+                  Convert.ToInt32(GetDay(ObjWorkSheet, i, 6)) <= Convert.ToInt32(day2))
                 {
                     CalculateBaseIssued(ObjWorkSheet, i, statistics);
                 }
@@ -145,20 +145,20 @@ namespace Statistics
                     (
                      monthNum1 != monthNum2 &&
                      (                      
-                       getYear(ObjWorkSheet, i, 5) == year1 &&
-                       getMonthNum(ObjWorkSheet, i, 5) == monthNum1 && Convert.ToInt32(getDay(ObjWorkSheet, i, 5)) >= Convert.ToInt32(day1)                      
+                       GetYear(ObjWorkSheet, i, 5) == year1 &&
+                       GetMonthNum(ObjWorkSheet, i, 5) == monthNum1 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 5)) >= Convert.ToInt32(day1)                      
                        ||                      
-                       getYear(ObjWorkSheet, i, 5) == year2 &&
-                       getMonthNum(ObjWorkSheet, i, 5) == monthNum2 && Convert.ToInt32(getDay(ObjWorkSheet, i, 5)) <= Convert.ToInt32(day2)                     
+                       GetYear(ObjWorkSheet, i, 5) == year2 &&
+                       GetMonthNum(ObjWorkSheet, i, 5) == monthNum2 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 5)) <= Convert.ToInt32(day2)                     
                      )
                     )
 
                    ||
 
                    (monthNum1 == monthNum2 &&
-                   getMonthNum(ObjWorkSheet, i, 5) == monthNum1 &&
-                   Convert.ToInt32(getDay(ObjWorkSheet, i, 5)) >= Convert.ToInt32(day1) &&
-                   Convert.ToInt32(getDay(ObjWorkSheet, i, 5)) <= Convert.ToInt32(day2)) )
+                   GetMonthNum(ObjWorkSheet, i, 5) == monthNum1 &&
+                   Convert.ToInt32(GetDay(ObjWorkSheet, i, 5)) >= Convert.ToInt32(day1) &&
+                   Convert.ToInt32(GetDay(ObjWorkSheet, i, 5)) <= Convert.ToInt32(day2)) )
                 {
                     CalculateBase(ObjWorkSheet, i, statistics);
                 }
