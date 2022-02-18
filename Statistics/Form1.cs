@@ -64,34 +64,36 @@ namespace Statistics
         {
             try
             {
-                listBoxPath.Items[0] = _cars.AutoImport(@"C:\PUBLIC_VS3\", "30", "ПАРКОВКА", _date.Year1, listBoxPath.Items[0].ToString());
+                listBoxPath.Items[0] = _cars.AutoImport(@"Z:\PUBLIC_VS3\", "30", "ПАРКОВКА", _date.Year1, listBoxPath.Items[0].ToString());
             }
-            catch { }
+            catch 
+            {
+                listBoxPath.Items[0] = _cars.AutoImport(@"U:\PUBLIC_VS3\", "30", "ПАРКОВКА", _date.Year1, listBoxPath.Items[0].ToString());
+            }
 
             try
             {
-                listBoxPath.Items[2] = _kpi.AutoImport(@"C:\PUBLIC_VS3\", "KPI", _date.Month, "KPI", _date.Month, listBoxPath.Items[2].ToString());
+                listBoxPath.Items[2] = _kpi.AutoImport(@"Z:\PUBLIC_VS3\", "KPI", _date.Month, "KPI", _date.Month, listBoxPath.Items[2].ToString());
             }
-            catch { }
+            catch 
+            {
+                listBoxPath.Items[2] = _kpi.AutoImport(@"U:\PUBLIC_VS3\", "KPI", _date.Month, "KPI", _date.Month, listBoxPath.Items[2].ToString());
+            }
 
             try
             {
-                listBoxPath.Items[4] = _videotapes.AutoImport(@"C:\PUBLIC_VS3\", "ЗАПРОС", "ЗАПРОС", _date.Year1, listBoxPath.Items[4].ToString());
+                listBoxPath.Items[4] = _videotapes.AutoImport(@"Z:\PUBLIC_VS3\", "ЗАПРОС", "ЗАПРОС", _date.Year1, listBoxPath.Items[4].ToString());
             }
-            catch { }
+            catch 
+            {
+                listBoxPath.Items[4] = _videotapes.AutoImport(@"U:\PUBLIC_VS3\", "ЗАПРОС", "ЗАПРОС", _date.Year1, listBoxPath.Items[4].ToString());
+            }
 
             try
             {               
-                listBoxPath.Items[6] = _statistics.AutoImport(@"C:\Users\VS 1\Desktop\", "СТАТИСТИКА", "СТАТИСТИКА", _date.Year1, listBoxPath.Items[6].ToString());
+                listBoxPath.Items[6] = _statistics.AutoImport(@"C:\Users\User\Desktop\", "СТАТИСТИКА", "СТАТИСТИКА", _date.Year1, listBoxPath.Items[6].ToString());
             }
-            catch
-            {
-                try
-                {
-                    listBoxPath.Items[6] = _statistics.AutoImport(@"C:\PUBLIC_VS3\", "СТАТИСТИКА", "СТАТИСТИКА", _date.Year1, listBoxPath.Items[6].ToString());
-                }
-                catch { }
-            }
+            catch { }
         }
 
         //Проверка на ошибки------------------------------------------------------------------------------------------------

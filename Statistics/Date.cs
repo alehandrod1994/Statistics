@@ -7,19 +7,21 @@ namespace Statistics
     {
         public Date()
         {
-            ListMonth = new List<string>();
-            ListMonth.Add("Январь");
-            ListMonth.Add("Февраль");
-            ListMonth.Add("Март");
-            ListMonth.Add("Апрель");
-            ListMonth.Add("Май");
-            ListMonth.Add("Июнь");
-            ListMonth.Add("Июль");
-            ListMonth.Add("Август");
-            ListMonth.Add("Сентябрь");
-            ListMonth.Add("Октябрь");
-            ListMonth.Add("Ноябрь");
-            ListMonth.Add("Декабрь");
+            ListMonth = new List<string>
+            {
+                "Январь",
+                "Февраль",
+                "Март",
+                "Апрель",
+                "Май",
+                "Июнь",
+                "Июль",
+                "Август",
+                "Сентябрь",
+                "Октябрь",
+                "Ноябрь",
+                "Декабрь"
+            };
         }
 
         public string Day1 { get; set; }
@@ -41,12 +43,12 @@ namespace Statistics
             string todayMonth = DateTime.Today.Month.ToString();
 
 
-            if (day < 10 && todayMonth == "1")
+            if (day < 7 && todayMonth == "1")
             {
                 Month = ListMonth[11];
                 Year1 = (Convert.ToInt32(DateTime.Today.Year) - 1).ToString();
             }
-            else if (day < 10)
+            else if (day < 7)
             {
                 Month = ListMonth[Convert.ToInt32(todayMonth) - 2];
                 Year1 = DateTime.Today.Year.ToString();
