@@ -62,32 +62,25 @@ namespace Statistics
 
         private void AutoImportDocuments()
         {
-            try
-            {
-                listBoxPath.Items[0] = _cars.AutoImport(@"Z:\PUBLIC_VS3\", "30", "ПАРКОВКА", _date.Year1, listBoxPath.Items[0].ToString());
-            }
-            catch 
-            {
-                listBoxPath.Items[0] = _cars.AutoImport(@"U:\PUBLIC_VS3\", "30", "ПАРКОВКА", _date.Year1, listBoxPath.Items[0].ToString());
-            }
+            string currentDisk = Directory.Exists(@"Z:\PUBLIC_VS3") ? @"Z:\PUBLIC_VS3" : @"U:\PUBLIC_VS3";
 
             try
             {
-                listBoxPath.Items[2] = _kpi.AutoImport(@"Z:\PUBLIC_VS3\", "KPI", _date.Month, "KPI", _date.Month, listBoxPath.Items[2].ToString());
+                listBoxPath.Items[0] = _cars.AutoImport(currentDisk, "30", "ПАРКОВКА", _date.Year1, listBoxPath.Items[0].ToString());
             }
-            catch 
+            catch { }    
+            
+            try
             {
-                listBoxPath.Items[2] = _kpi.AutoImport(@"U:\PUBLIC_VS3\", "KPI", _date.Month, "KPI", _date.Month, listBoxPath.Items[2].ToString());
+                listBoxPath.Items[2] = _kpi.AutoImport(currentDisk, "KPI", _date.Month, "KPI", _date.Month, listBoxPath.Items[2].ToString());
             }
+            catch { }
 
             try
             {
-                listBoxPath.Items[4] = _videotapes.AutoImport(@"Z:\PUBLIC_VS3\", "ЗАПРОС", "ЗАПРОС", _date.Year1, listBoxPath.Items[4].ToString());
+                listBoxPath.Items[4] = _videotapes.AutoImport(currentDisk, "ЗАПРОС", "ЗАПРОС", _date.Year1, listBoxPath.Items[4].ToString());
             }
-            catch 
-            {
-                listBoxPath.Items[4] = _videotapes.AutoImport(@"U:\PUBLIC_VS3\", "ЗАПРОС", "ЗАПРОС", _date.Year1, listBoxPath.Items[4].ToString());
-            }
+            catch {}
 
             try
             {               
