@@ -62,7 +62,7 @@ namespace Statistics
 
         private void AutoImportDocuments()
         {
-            string currentDisk = Directory.Exists(@"Z:\PUBLIC_VS3") ? @"Z:\PUBLIC_VS3" : @"U:\PUBLIC_VS3";
+            string currentDisk = Directory.Exists(@"Z:\PUBLIC_VS3\") ? @"Z:\PUBLIC_VS3\" : @"U:\PUBLIC_VS3\";
 
             try
             {
