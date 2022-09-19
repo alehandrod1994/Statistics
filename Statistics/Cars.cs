@@ -62,6 +62,7 @@ namespace Statistics
         {
             statistics.CarsOneTime = 0;
             statistics.CarsPermanent = 0;
+
             string error = "";
 
             if (cancel == true) return error = "cancel";
@@ -81,7 +82,7 @@ namespace Statistics
             app.DisplayAlerts = false;
             ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);       
 
-            for (int i = 2; i < 1000; i++)
+            for (int i = 2; i < 10000; i++)
             {                            
                 if (GetMonthNum(ObjWorkSheet, i, 1) == monthNum)
                 {
@@ -107,9 +108,8 @@ namespace Statistics
 
         public string CalculateWeek(Statistics statistics, string day1, string day2, string monthNum1, string monthNum2, string year1, string year2, bool cancel)
         {
-            statistics.ListDate = new List<string>();
-            statistics.ListCarsOneTime = new List<int>();
-            statistics.ListCarsPermanent = new List<int>();
+            statistics.CarDays = new List<CarDay>();
+
             string error = "";
 
             if (cancel == true) return error = "cancel";
@@ -129,7 +129,7 @@ namespace Statistics
             app.DisplayAlerts = false;
             ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
 
-            for (int i = 2; i < 1000; i++)
+            for (int i = 2; i < 10000; i++)
             {
                 //if (getMonthNum(ObjWorkSheet, i, 1) == monthNum && Contains(ObjWorkSheet, i, 7, "ПОСТ")) statistics.carsPermanent++;
                 //else if (getMonthNum(ObjWorkSheet, i, 1) == monthNum && Contains(ObjWorkSheet, i, 7, "РАЗ")) statistics.carsOneTime++;
@@ -177,19 +177,27 @@ namespace Statistics
 
         private void CalculateBaseWeek(Excel.Worksheet ObjWorkSheet, int i, Statistics statistics)
         {
-            if ((statistics.ListDate.Count > 0 && GetDate(ObjWorkSheet, i, 1) != statistics.ListDate.Last())
-                || statistics.ListDate.Count == 0)
+            string date = GetDate(ObjWorkSheet, i, 1);
+            CarDay item = statistics.CarDays.SingleOrDefault(c => c.Date == date);
+
+            int index;
+            if (item != null)
             {
-                statistics.ListDate.Add(GetDate(ObjWorkSheet, i, 1));
-                statistics.ListCarsPermanent.Add(0);
-                statistics.ListCarsOneTime.Add(0);
+                index = statistics.CarDays.IndexOf(item);
+            }
+            else
+            {
+                statistics.CarDays.Add(new CarDay(date));
+                index = statistics.CarDays.Count - 1;
             }
 
-            if (Contains(ObjWorkSheet, i, 7, "ПОСТ"))
-                statistics.ListCarsPermanent[statistics.ListCarsPermanent.Count - 1] = statistics.ListCarsPermanent.Last() + 1;
-            else if (Contains(ObjWorkSheet, i, 7, "РАЗ"))
-                statistics.ListCarsOneTime[statistics.ListCarsOneTime.Count - 1] = statistics.ListCarsOneTime.Last() + 1;
+            if (Contains(ObjWorkSheet, i, 7, "РАЗ"))
+                statistics.CarDays[index].CarsOneTime++;
+            else if (Contains(ObjWorkSheet, i, 7, "ПОСТ"))
+                statistics.CarDays[index].CarsPermanent++;
         }
 
     }
+
 }
+

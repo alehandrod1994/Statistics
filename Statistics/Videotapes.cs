@@ -126,7 +126,7 @@ namespace Statistics
             app.DisplayAlerts = false;
             ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
 
-            for (int i = 2; i < 1000; i++)
+            for (int i = 2; i < 10000; i++)
             {
                if ((monthNum1 != monthNum2 &&
                   ((GetYear(ObjWorkSheet, i, 6) == year1 &&

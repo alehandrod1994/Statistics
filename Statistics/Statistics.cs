@@ -22,10 +22,7 @@ namespace Statistics
         public int Usb { get; set; }
         public int Dvd { get; set; }
         public int DiskN { get; set; }
-
-        public List<string> ListDate { get; set; }
-        public List<int> ListCarsOneTime { get; set; }
-        public List<int> ListCarsPermanent { get; set; }
+        public List<CarDay> CarDays { get; set; }
 
         public string NewFileName { get; private set; }
         public string PathFolder { get; private set; }
@@ -176,7 +173,7 @@ namespace Statistics
             else
             {
                 //Вставить таблицу за неделю
-                for (int i = 1; i < 1000; i++)
+                for (int i = 1; i < 10000; i++)
                 {
                     if (ToString(ObjWorkSheet, i, 1) == "" && ToString(ObjWorkSheet, i + 1, 1) == "" && ToString(ObjWorkSheet, i + 2, 1) == "" &&
                         ToString(ObjWorkSheet, i + 3, 1) == "" && ToString(ObjWorkSheet, i + 4, 1) == "" && ToString(ObjWorkSheet, i + 5, 1) == "" &&
@@ -213,9 +210,9 @@ namespace Statistics
             InsertData(ObjWorkSheet, rowPaste, 2, "30");
 
             //Рамки 30м
-            if (ListDate.Count > 1)
+            if (CarDays.Count > 1)
             {
-                DrawBorders(ObjWorkSheet, rowPaste + 3, "I", rowPaste + ListDate.Count + 1, "I");
+                DrawBorders(ObjWorkSheet, rowPaste + 3, "I", rowPaste + CarDays.Count + 1, "I");
             }
    
             //Сохранить                       
@@ -397,17 +394,18 @@ namespace Statistics
                 {
                     int rowCars = startTableIndex + rowNum;
 
-                    if (ListDate.Count > 0)
+                    if (CarDays.Count > 0)
                     {
-                        for (int i = 0; i < ListDate.Count; i++)
+                        for (int i = 0; i < CarDays.Count; i++)
                         {
-                            if (ListCarsOneTime[i] > 0 && ListCarsPermanent[i] > 0)
-                                ObjWorkSheet.Cells[i + rowCars, j] = ListDate[i] + " - " + ListCarsOneTime[i] + " (раз.), " + ListCarsPermanent[i] + " (пост.)";
-                            else if (ListCarsOneTime[i] > 0)
-                                ObjWorkSheet.Cells[i + rowCars, j] = ListDate[i] + " - " + ListCarsOneTime[i] + " (раз.)";
-                            else if (ListCarsPermanent[i] > 0)
-                                ObjWorkSheet.Cells[i + rowCars, j] = ListDate[i] + " - " + ListCarsPermanent[i] + " (пост.)";
+                            if (CarDays[i].CarsOneTime > 0 && CarDays[i].CarsPermanent > 0)
+                                ObjWorkSheet.Cells[i + rowCars, j] = CarDays[i].Date + " - " + CarDays[i].CarsOneTime + " (раз.), " + CarDays[i].CarsPermanent + " (пост.)";
+                            else if (CarDays[i].CarsOneTime > 0)
+                                ObjWorkSheet.Cells[i + rowCars, j] = CarDays[i].Date + " - " + CarDays[i].CarsOneTime + " (раз.)";
+                            else if (CarDays[i].CarsPermanent > 0)
+                                ObjWorkSheet.Cells[i + rowCars, j] = CarDays[i].Date + " - " + CarDays[i].CarsPermanent + " (пост.)";
                         }
+
                         // TODO: горизонтальное выравнивание по левому краю все списки
 
                     }

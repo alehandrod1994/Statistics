@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarDay.cs" />
     <Compile Include="Cars.cs" />
     <Compile Include="Date.cs" />
     <Compile Include="DocumentsForStatistics.cs" />
