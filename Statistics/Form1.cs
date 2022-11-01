@@ -72,7 +72,7 @@ namespace Statistics
             
             try
             {
-                listBoxPath.Items[2] = _kpi.AutoImport(currentDisk, "KPI", _date.Month, "KPI", _date.Month, listBoxPath.Items[2].ToString());
+                listBoxPath.Items[2] = _kpi.AutoImport(currentDisk, "KPI", _date.Month, ".XLS", listBoxPath.Items[2].ToString());
             }
             catch { }
 

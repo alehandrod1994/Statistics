@@ -12,13 +12,13 @@ namespace Statistics
 
         //Автозагрузка файлов-----------------------------------------------------------------------------------------------
 
-        public string AutoImport(string sourceFolder, string keyFolder1, string month, string keyFile1, string keyFile2, string fullPath)
+        public string AutoImport(string sourceFolder, string keyFolder, string month, string extention, string fullPath)
         {
             string nextFolder = "";
             DirectoryInfo dir = new DirectoryInfo(sourceFolder);
             foreach (DirectoryInfo directory in dir.GetDirectories())
             {
-                if (directory.Name.ToString().ToUpper().Contains(keyFolder1) && directory.Name.ToString().ToUpper().Contains(month.ToUpper()))
+                if (directory.Name.ToString().ToUpper().Contains(keyFolder) && directory.Name.ToString().ToUpper().Contains(month.ToUpper()))
                 {
                     nextFolder = directory.Name;
 
@@ -29,10 +29,9 @@ namespace Statistics
             dir = new DirectoryInfo(sourceFolder + nextFolder);
             foreach (FileInfo files in dir.GetFiles())
             {
-                if ( (files.Name.ToString().ToUpper().Contains(keyFile1) || files.Name.ToString().ToUpper().Contains(month.ToUpper()))
-                    && !files.Name.ToString().Contains("$") )
+                if (files.Name.ToUpper().Contains(month.ToUpper()) && files.Name.ToUpper().Contains(extention) && !files.Name.Contains("$") )
                 {
-                    Path = sourceFolder + nextFolder + @"\" + files.Name;
+                    Path = files.FullName;
                     fullPath = FillingPaths(fullPath, Path);
 
                     break;
