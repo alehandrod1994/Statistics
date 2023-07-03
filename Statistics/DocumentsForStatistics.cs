@@ -1,24 +1,70 @@
 ﻿using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Collections.Generic;
 
 namespace Statistics
 {
     public abstract class DocumentsForStatistics
     {
+        protected Excel.Application app;
+        protected Excel.Workbook book;
+        protected Excel.Worksheet sheet;
+
         public DocumentsForStatistics() => Path = "";
 
         public string Path { get; set; }
         public string FileName { get; set; }
 
+        /// <summary>
+		/// Открывает подключение к документу.
+		/// </summary>
+		/// <returns> True, если подключение прошло успешно; в противном случае - false. </returns>
+        protected bool OpenConnection()
+        {
+            app = new Excel.Application();
+            book = null;
+
+            try
+            {
+                book = app.Workbooks.Open(Path);
+            }
+            catch
+            {
+                return false;
+            }
+
+            app.DisplayAlerts = false;
+            sheet = book.Sheets[1];
+            return true;
+        }
+
+        /// <summary>
+        /// Закрывает подключение к документу.
+        /// </summary>
+        /// <returns> True, если закрытие подключения прошло успешно; в противном случае - false. </returns>
+        protected bool CloseConnection()
+        {
+            try
+            {
+                book.Close();
+                app.Quit();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         //Загрузка файлов---------------------------------------------------------------------------------------------------
 
         public string Import(string str)                                                           
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.FileName = "";
-            ofd.Filter = "Документ Excel (*.xls; *xlsx) | *.xls; *.xlsx";
-            ofd.Title = "Выберите файл";
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                FileName = "",
+                Filter = "Документ Excel (*.xls; *xlsx) | *.xls; *.xlsx",
+                Title = "Выберите файл"
+            };
 
             if (ofd.ShowDialog() != DialogResult.Cancel)
             {
@@ -76,11 +122,11 @@ namespace Statistics
 
         //Возвращает день---------------------------------------------------------------------------------------------------
 
-        public string GetDay(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string GetDay(int i, int j)
         {
             string str;
 
-            str = ToString(ObjWorkSheet, i, j);
+            str = ToString(i, j);
             
             if (str != "")
             {
@@ -92,11 +138,11 @@ namespace Statistics
 
         //Возвращает номер месяца-------------------------------------------------------------------------------------------
 
-        public string GetMonthNum(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string GetMonthNum(int i, int j)
         {
             string str;
 
-            str = ToString(ObjWorkSheet, i, j);
+            str = ToString(i, j);
             
             if (str != "")
             {
@@ -108,11 +154,11 @@ namespace Statistics
 
         //Возвращает год----------------------------------------------------------------------------------------------------
 
-        public string GetYear(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string GetYear(int i, int j)
         {
             string str;
             
-            str = ToString(ObjWorkSheet, i, j);
+            str = ToString(i, j);
             
             if (str != "")
             {
@@ -129,11 +175,11 @@ namespace Statistics
 
         //Возвращает дату----------------------------------------------------------------------------------------------------
 
-        public string GetDate(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string GetDate(int i, int j)
         {
             string str;
 
-            str = ToString(ObjWorkSheet, i, j);
+            str = ToString(i, j);
 
             if (str != "")
             {
@@ -150,25 +196,16 @@ namespace Statistics
 
         //Поиск подстроки в строке------------------------------------------------------------------------------------------
 
-        public bool Contains(Excel.Worksheet ObjWorkSheet, int i, int j, string key)
+        public bool Contains(int i, int j, string key)
         {
-            string str;
-
-            str = ToString(ObjWorkSheet, i, j);
-            if (str.Contains(key)) return true;
-            else return false;
+            return ToString(i, j).ToUpper().Contains(key.ToUpper());
         }
 
         //Превращает в строку-----------------------------------------------------------------------------------------------
 
-        public string ToString(Excel.Worksheet ObjWorkSheet, int i, int j)
+        public string ToString(int i, int j)
         {
-            Excel.Range rString;
-            string str;
-
-            rString = ObjWorkSheet.Cells[i, j] as Excel.Range;
-            str = (rString.Value != null) ? rString.Value.ToString() : "";      
-            return str.ToUpper();            
+            return ((Excel.Range)sheet.Cells[i, j]).Value?.ToString() ?? "";
         }
 
         //Заполнение путей в listboxPath------------------------------------------------------------------------------------

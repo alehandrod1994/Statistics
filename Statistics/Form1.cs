@@ -84,7 +84,7 @@ namespace Statistics
 
             try
             {               
-                listBoxPath.Items[6] = _statistics.AutoImport(@"C:\Users\User\Desktop\", "СТАТИСТИКА", "СТАТИСТИКА", _date.Year1, listBoxPath.Items[6].ToString());
+                listBoxPath.Items[6] = _statistics.AutoImport(@"C:\Users\gpu\Desktop\", "СТАТИСТИКА", "СТАТИСТИКА", _date.Year1, listBoxPath.Items[6].ToString());
             }
             catch { }
         }

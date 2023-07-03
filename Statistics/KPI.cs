@@ -79,28 +79,34 @@ namespace Statistics
 
             if (cancel == true) return error = "cancel";
 
-            Excel.Application app = new Excel.Application();
-            Excel.Workbook ObjWorkBook = null;
-            try
+            /* -- */
+            //Excel.Application app = new Excel.Application();
+            //Excel.Workbook ObjWorkBook = null;
+            //try
+            //{
+            //    ObjWorkBook = app.Workbooks.Open(Path);
+            //}
+            //catch
+            //{
+            //    return error = "Не удалось открыть файл 'KPI'. Возможно, он сейчас используется.";
+            //}
+            //Excel.Worksheet ObjWorkSheet = null;
+            ////Отключить отображение окон с сообщениями
+            //app.DisplayAlerts = false;
+            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
+
+            if (!OpenConnection())
             {
-                ObjWorkBook = app.Workbooks.Open(Path);
+                return "Не удалось открыть файл \"KPI\". Возможно, он сейчас используется.";
             }
-            catch
-            {
-                return error = "Не удалось открыть файл 'KPI'. Возможно, он сейчас используется.";
-            }
-            Excel.Worksheet ObjWorkSheet = null;
-            //Отключить отображение окон с сообщениями
-            app.DisplayAlerts = false;
-            ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
 
             for (int i = 2; i < 50; i++)
             {
-                if (Contains(ObjWorkSheet, i, 2, "ИТОГО"))
+                if (Contains(i, 2, "ИТОГО"))
                 {
-                    statistics.Beshoz = Convert.ToInt32(ToString(ObjWorkSheet, i, 4));
-                    statistics.Abtb = Convert.ToInt32(ToString(ObjWorkSheet, i, 5));
-                    statistics.TrudRas = Convert.ToInt32(ToString(ObjWorkSheet, i, 3));
+                    statistics.Beshoz = Convert.ToInt32(ToString(i, 4));
+                    statistics.Abtb = Convert.ToInt32(ToString(i, 5));
+                    statistics.TrudRas = Convert.ToInt32(ToString(i, 3));
 
                     break;
                 }
@@ -108,7 +114,7 @@ namespace Statistics
 
             try
             {
-                ObjWorkBook.Close();
+                book.Close();
                 app.Quit();
             }
             catch (Exception ex)

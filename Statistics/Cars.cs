@@ -67,33 +67,39 @@ namespace Statistics
 
             if (cancel == true) return error = "cancel";
 
-            Excel.Application app = new Excel.Application();
-            Excel.Workbook ObjWorkBook = null;
-            try
+            /* -- */
+            //Excel.Application app = new Excel.Application();
+            //Excel.Workbook ObjWorkBook = null;
+            //try
+            //{
+            //    ObjWorkBook = app.Workbooks.Open(Path);
+            //}
+            //catch
+            //{
+            //    return error = "Не удалось открыть файл '30м'. Возможно, он сейчас используется.";
+            //}
+            //Excel.Worksheet ObjWorkSheet = null;
+            ////Отключить отображение окон с сообщениями
+            //app.DisplayAlerts = false;
+            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);       
+
+            if (!OpenConnection())
             {
-                ObjWorkBook = app.Workbooks.Open(Path);
+                return "Не удалось открыть файл \"30м\". Возможно, он сейчас используется.";
             }
-            catch
-            {
-                return error = "Не удалось открыть файл '30м'. Возможно, он сейчас используется.";
-            }
-            Excel.Worksheet ObjWorkSheet = null;
-            //Отключить отображение окон с сообщениями
-            app.DisplayAlerts = false;
-            ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);       
 
             for (int i = 2; i < 10000; i++)
             {                            
-                if (GetMonthNum(ObjWorkSheet, i, 1) == monthNum)
+                if (GetMonthNum(i, 1) == monthNum)
                 {
-                    CalculateBaseMonth(ObjWorkSheet, i, statistics);
+                    CalculateBaseMonth(i, statistics);
                 }
-                else if (ToString(ObjWorkSheet, i, 1) == "" && ToString(ObjWorkSheet, i + 1, 1) == "" && ToString(ObjWorkSheet, i + 2, 1) == "") break;
+                else if (ToString(i, 1) == "" && ToString(i + 1, 1) == "" && ToString(i + 2, 1) == "") break;
             }
 
             try
             {
-                ObjWorkBook.Close();
+                book.Close();
                 app.Quit();
             }
             catch (Exception ex)
@@ -114,20 +120,26 @@ namespace Statistics
 
             if (cancel == true) return error = "cancel";
 
-            Excel.Application app = new Excel.Application();
-            Excel.Workbook ObjWorkBook = null;
-            try
+            /* -- */
+            //Excel.Application app = new Excel.Application();
+            //Excel.Workbook ObjWorkBook = null;
+            //try
+            //{
+            //    ObjWorkBook = app.Workbooks.Open(Path);
+            //}
+            //catch
+            //{
+            //    return error = "Не удалось открыть файл '30м'. Возможно, он сейчас используется.";
+            //}
+            //Excel.Worksheet ObjWorkSheet = null;
+            ////Отключить отображение окон с сообщениями
+            //app.DisplayAlerts = false;
+            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
+
+            if (!OpenConnection())
             {
-                ObjWorkBook = app.Workbooks.Open(Path);
+                return "Не удалось открыть файл \"30м\". Возможно, он сейчас используется.";
             }
-            catch
-            {
-                return error = "Не удалось открыть файл '30м'. Возможно, он сейчас используется.";
-            }
-            Excel.Worksheet ObjWorkSheet = null;
-            //Отключить отображение окон с сообщениями
-            app.DisplayAlerts = false;
-            ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
 
             for (int i = 2; i < 10000; i++)
             {
@@ -136,25 +148,25 @@ namespace Statistics
                 //else if (ToString(ObjWorkSheet, i, 1) == "" && ToString(ObjWorkSheet, i + 1, 1) == "") break;
 
                 if ( (monthNum1 != monthNum2 &&
-                      ((GetYear(ObjWorkSheet, i, 1) == year1 &&
-                      GetMonthNum(ObjWorkSheet, i, 1) == monthNum1 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 1)) >= Convert.ToInt32(day1)) ||
-                      (GetYear(ObjWorkSheet, i, 1) == year2 &&
-                      GetMonthNum(ObjWorkSheet, i, 1) == monthNum2 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 1)) <= Convert.ToInt32(day2))))
+                      ((GetYear(i, 1) == year1 &&
+                      GetMonthNum(i, 1) == monthNum1 && Convert.ToInt32(GetDay(i, 1)) >= Convert.ToInt32(day1)) ||
+                      (GetYear(i, 1) == year2 &&
+                      GetMonthNum(i, 1) == monthNum2 && Convert.ToInt32(GetDay(i, 1)) <= Convert.ToInt32(day2))))
                       ||
                       (monthNum1 == monthNum2) &&
-                      GetMonthNum(ObjWorkSheet, i, 1) == monthNum1 &&
-                      Convert.ToInt32(GetDay(ObjWorkSheet, i, 1)) >= Convert.ToInt32(day1) &&
-                      Convert.ToInt32(GetDay(ObjWorkSheet, i, 1)) <= Convert.ToInt32(day2) )
+                      GetMonthNum(i, 1) == monthNum1 &&
+                      Convert.ToInt32(GetDay(i, 1)) >= Convert.ToInt32(day1) &&
+                      Convert.ToInt32(GetDay(i, 1)) <= Convert.ToInt32(day2) )
 
                 {
-                    CalculateBaseWeek(ObjWorkSheet, i, statistics);
+                    CalculateBaseWeek(i, statistics);
                 }
-                else if (ToString(ObjWorkSheet, i, 1) == "" && ToString(ObjWorkSheet, i + 1, 1) == "" && ToString(ObjWorkSheet, i + 2, 1) == "") break;
+                else if (ToString(i, 1) == "" && ToString(i + 1, 1) == "" && ToString(i + 2, 1) == "") break;
             }
 
             try
             {
-                ObjWorkBook.Close();
+                book.Close();
                 app.Quit();
             }
             catch (Exception ex)
@@ -167,17 +179,17 @@ namespace Statistics
 
         //Общий алгоритм подсчёта статистики за месяц-----------------------------------------------------------------------
 
-        private void CalculateBaseMonth(Excel.Worksheet ObjWorkSheet, int i, Statistics statistics)
+        private void CalculateBaseMonth(int i, Statistics statistics)
         {
-            if (Contains(ObjWorkSheet, i, 7, "ПОСТ")) statistics.CarsPermanent++;
-            else if (Contains(ObjWorkSheet, i, 7, "РАЗ")) statistics.CarsOneTime++;
+            if (Contains(i, 7, "ПОСТ")) statistics.CarsPermanent++;
+            else if (Contains(i, 7, "РАЗ")) statistics.CarsOneTime++;
         }
 
         //Общий алгоритм подсчёта статистики за неделю----------------------------------------------------------------------
 
-        private void CalculateBaseWeek(Excel.Worksheet ObjWorkSheet, int i, Statistics statistics)
+        private void CalculateBaseWeek(int i, Statistics statistics)
         {
-            string date = GetDate(ObjWorkSheet, i, 1);
+            string date = GetDate(i, 1);
             CarDay item = statistics.CarDays.SingleOrDefault(c => c.Date == date);
 
             int index;
@@ -191,9 +203,9 @@ namespace Statistics
                 index = statistics.CarDays.Count - 1;
             }
 
-            if (Contains(ObjWorkSheet, i, 7, "РАЗ"))
+            if (Contains(i, 7, "РАЗ"))
                 statistics.CarDays[index].CarsOneTime++;
-            else if (Contains(ObjWorkSheet, i, 7, "ПОСТ"))
+            else if (Contains(i, 7, "ПОСТ"))
                 statistics.CarDays[index].CarsPermanent++;
         }
 

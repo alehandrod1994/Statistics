@@ -55,37 +55,43 @@ namespace Statistics
 
             if (cancel == true) return error = "cancel";
 
-            Excel.Application app = new Excel.Application();
-            Excel.Workbook ObjWorkBook = null;
-            try
+            /* -- */
+            //Excel.Application app = new Excel.Application();
+            //Excel.Workbook ObjWorkBook = null;
+            //try
+            //{
+            //    ObjWorkBook = app.Workbooks.Open(Path);
+            //}
+            //catch
+            //{
+            //    return error = "Не удалось открыть файл 'Запросы'. Возможно, он сейчас используется.";
+            //}
+            //Excel.Worksheet ObjWorkSheet = null;
+            ////Отключить отображение окон с сообщениями
+            //app.DisplayAlerts = false;
+            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
+            
+            if (!OpenConnection())
             {
-                ObjWorkBook = app.Workbooks.Open(Path);
+                return "Не удалось открыть файл \"Запросы\". Возможно, он сейчас используется.";
             }
-            catch
-            {
-                return error = "Не удалось открыть файл 'Запросы'. Возможно, он сейчас используется.";
-            }
-            Excel.Worksheet ObjWorkSheet = null;
-            //Отключить отображение окон с сообщениями
-            app.DisplayAlerts = false;
-            ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);         
 
             for (int i = 2; i < 1000; i++)
             {
-                if (GetMonthNum(ObjWorkSheet, i, 6) == monthNum)
+                if (GetMonthNum(i, 6) == monthNum)
                 {
-                    CalculateBaseIssued(ObjWorkSheet, i, statistics);
+                    CalculateBaseIssued(i, statistics);
                 }
-                if (GetMonthNum(ObjWorkSheet, i, 5) == monthNum)
+                if (GetMonthNum(i, 5) == monthNum)
                 {
-                    CalculateBase(ObjWorkSheet, i, statistics);
+                    CalculateBase(i, statistics);
                 }                                              
-                else if (ToString(ObjWorkSheet, i, 5) == "" && ToString(ObjWorkSheet, i + 1, 5) == "" && ToString(ObjWorkSheet, i + 2, 5) == "") break;
+                else if (ToString(i, 5) == "" && ToString(i + 1, 5) == "" && ToString(i + 2, 5) == "") break;
             }
 
             try
             {
-                ObjWorkBook.Close();
+                book.Close();
                 app.Quit();
             }
             catch (Exception ex)
@@ -111,63 +117,69 @@ namespace Statistics
 
             if (cancel == true) return error = "cancel";
 
-            Excel.Application app = new Excel.Application();
-            Excel.Workbook ObjWorkBook = null;
-            try
+            /* -- */
+            //Excel.Application app = new Excel.Application();
+            //Excel.Workbook ObjWorkBook = null;
+            //try
+            //{
+            //    ObjWorkBook = app.Workbooks.Open(Path);
+            //}
+            //catch
+            //{
+            //    return error = "Не удалось открыть файл 'Запросы'. Возможно, он сейчас используется.";
+            //}
+            //Excel.Worksheet ObjWorkSheet = null;
+            ////Отключить отображение окон с сообщениями
+            //app.DisplayAlerts = false;
+            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
+
+            if (!OpenConnection())
             {
-                ObjWorkBook = app.Workbooks.Open(Path);
+                return "Не удалось открыть файл \"Запросы\". Возможно, он сейчас используется.";
             }
-            catch
-            {
-                return error = "Не удалось открыть файл 'Запросы'. Возможно, он сейчас используется.";
-            }
-            Excel.Worksheet ObjWorkSheet = null;
-            //Отключить отображение окон с сообщениями
-            app.DisplayAlerts = false;
-            ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
 
             for (int i = 2; i < 10000; i++)
             {
                if ((monthNum1 != monthNum2 &&
-                  ((GetYear(ObjWorkSheet, i, 6) == year1 &&
-                  GetMonthNum(ObjWorkSheet, i, 6) == monthNum1 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 6)) >= Convert.ToInt32(day1)) ||
-                  (GetYear(ObjWorkSheet, i, 6) == year2 &&
-                  GetMonthNum(ObjWorkSheet, i, 6) == monthNum2 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 6)) <= Convert.ToInt32(day2))))
+                  ((GetYear(i, 6) == year1 &&
+                  GetMonthNum(i, 6) == monthNum1 && Convert.ToInt32(GetDay(i, 6)) >= Convert.ToInt32(day1)) ||
+                  (GetYear(i, 6) == year2 &&
+                  GetMonthNum(i, 6) == monthNum2 && Convert.ToInt32(GetDay(i, 6)) <= Convert.ToInt32(day2))))
                   ||
                   (monthNum1 == monthNum2) &&
-                  GetMonthNum(ObjWorkSheet, i, 6) == monthNum1 &&
-                  Convert.ToInt32(GetDay(ObjWorkSheet, i, 6)) >= Convert.ToInt32(day1) &&
-                  Convert.ToInt32(GetDay(ObjWorkSheet, i, 6)) <= Convert.ToInt32(day2))
+                  GetMonthNum(i, 6) == monthNum1 &&
+                  Convert.ToInt32(GetDay(i, 6)) >= Convert.ToInt32(day1) &&
+                  Convert.ToInt32(GetDay(i, 6)) <= Convert.ToInt32(day2))
                 {
-                    CalculateBaseIssued(ObjWorkSheet, i, statistics);
+                    CalculateBaseIssued(i, statistics);
                 }
                 if ( 
                     (
                      monthNum1 != monthNum2 &&
                      (                      
-                       GetYear(ObjWorkSheet, i, 5) == year1 &&
-                       GetMonthNum(ObjWorkSheet, i, 5) == monthNum1 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 5)) >= Convert.ToInt32(day1)                      
+                       GetYear(i, 5) == year1 &&
+                       GetMonthNum(i, 5) == monthNum1 && Convert.ToInt32(GetDay(i, 5)) >= Convert.ToInt32(day1)                      
                        ||                      
-                       GetYear(ObjWorkSheet, i, 5) == year2 &&
-                       GetMonthNum(ObjWorkSheet, i, 5) == monthNum2 && Convert.ToInt32(GetDay(ObjWorkSheet, i, 5)) <= Convert.ToInt32(day2)                     
+                       GetYear(i, 5) == year2 &&
+                       GetMonthNum(i, 5) == monthNum2 && Convert.ToInt32(GetDay(i, 5)) <= Convert.ToInt32(day2)                     
                      )
                     )
 
                    ||
 
                    (monthNum1 == monthNum2 &&
-                   GetMonthNum(ObjWorkSheet, i, 5) == monthNum1 &&
-                   Convert.ToInt32(GetDay(ObjWorkSheet, i, 5)) >= Convert.ToInt32(day1) &&
-                   Convert.ToInt32(GetDay(ObjWorkSheet, i, 5)) <= Convert.ToInt32(day2)) )
+                   GetMonthNum(i, 5) == monthNum1 &&
+                   Convert.ToInt32(GetDay(i, 5)) >= Convert.ToInt32(day1) &&
+                   Convert.ToInt32(GetDay(i, 5)) <= Convert.ToInt32(day2)) )
                 {
-                    CalculateBase(ObjWorkSheet, i, statistics);
+                    CalculateBase(i, statistics);
                 }
-                else if (ToString(ObjWorkSheet, i, 5) == "" && ToString(ObjWorkSheet, i + 1, 5) == "" && ToString(ObjWorkSheet, i + 2, 5) == "") break;
+                else if (ToString(i, 5) == "" && ToString(i + 1, 5) == "" && ToString(i + 2, 5) == "") break;
             }
 
             try
             {
-                ObjWorkBook.Close();
+                book.Close();
                 app.Quit();
             }
             catch (Exception ex)
@@ -180,28 +192,28 @@ namespace Statistics
 
         //Общий алгоритм подсчёта статистики (подготовленные запросы и просмотр)--------------------------------------------
 
-        private void CalculateBase(Excel.Worksheet ObjWorkSheet, int i, Statistics statistics)
+        private void CalculateBase(int i, Statistics statistics)
         {
-            if (Contains(ObjWorkSheet, i, 2, "З") && !Contains(ObjWorkSheet, i, 2, "ПОВТОР"))
+            if (Contains(i, 2, "З") && !Contains(i, 2, "ПОВТОР"))
             {
-                if (Contains(ObjWorkSheet, i, 9, "МВД") || Contains(ObjWorkSheet, i, 9, "ЛОП")) statistics.Police++;
-                else if (Contains(ObjWorkSheet, i, 9, "СТОРОН")) statistics.AnotherOrg++;
-                else if (Contains(ObjWorkSheet, i, 9, "А/П")) statistics.Airport++;
+                if (Contains(i, 9, "МВД") || Contains(i, 9, "ЛОП")) statistics.Police++;
+                else if (Contains(i, 9, "СТОРОН")) statistics.AnotherOrg++;
+                else if (Contains(i, 9, "А/П")) statistics.Airport++;
             }
-            if (Contains(ObjWorkSheet, i, 2, "П-") || Contains(ObjWorkSheet, i, 2, "П ")) statistics.Viewing++;
+            if (Contains(i, 2, "П-") || Contains(i, 2, "П ")) statistics.Viewing++;
         }
 
         //Общий алгоритм подсчёта статистики (выдано) ----------------------------------------------------------------------
 
-        private void CalculateBaseIssued(Excel.Worksheet ObjWorkSheet, int i, Statistics statistics)
+        private void CalculateBaseIssued(int i, Statistics statistics)
         {
-            if (!Contains(ObjWorkSheet, i, 7, "ПОВТОР") && !Contains(ObjWorkSheet, i, 8, "ПОВТОР"))
+            if (!Contains(i, 7, "ПОВТОР") && !Contains(i, 8, "ПОВТОР"))
             {
-                if (Contains(ObjWorkSheet, i, 7, "USB") || Contains(ObjWorkSheet, i, 8, "USB")) statistics.Usb++;
-                else if (Contains(ObjWorkSheet, i, 7, "ДИСК N") || Contains(ObjWorkSheet, i, 8, "ДИСК N")) statistics.DiskN++;
-                else if (!Contains(ObjWorkSheet, i, 7, "ДИСК N") && !Contains(ObjWorkSheet, i, 8, "ДИСК N") &&
-                    (Contains(ObjWorkSheet, i, 7, "DVD") || Contains(ObjWorkSheet, i, 7, "CD") || Contains(ObjWorkSheet, i, 7, "ДИСК") ||
-                     Contains(ObjWorkSheet, i, 8, "DVD") || Contains(ObjWorkSheet, i, 8, "CD") || Contains(ObjWorkSheet, i, 8, "ДИСК"))) statistics.Dvd++;
+                if (Contains(i, 7, "USB") || Contains(i, 8, "USB")) statistics.Usb++;
+                else if (Contains(i, 7, "ДИСК N") || Contains(i, 8, "ДИСК N")) statistics.DiskN++;
+                else if (!Contains(i, 7, "ДИСК N") && !Contains(i, 8, "ДИСК N") &&
+                    (Contains(i, 7, "DVD") || Contains(i, 7, "CD") || Contains(i, 7, "ДИСК") ||
+                     Contains(i, 8, "DVD") || Contains(i, 8, "CD") || Contains(i, 8, "ДИСК"))) statistics.Dvd++;
             }
         }
 
