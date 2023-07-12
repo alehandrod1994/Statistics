@@ -48,6 +48,19 @@
             this.btn30m = new System.Windows.Forms.PictureBox();
             this.btnCalculate = new System.Windows.Forms.PictureBox();
             this.imgProgressBar_0 = new System.Windows.Forms.PictureBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importCarsItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importKPIItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importVideotapesItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importStatisticsItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelDebug = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imgProgressBar_100)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStatistics)).BeginInit();
@@ -56,6 +69,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btn30m)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCalculate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgProgressBar_0)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBoxMonth
@@ -77,7 +91,7 @@
             "Октябрь",
             "Ноябрь",
             "Декабрь"});
-            this.comboBoxMonth.Location = new System.Drawing.Point(161, 62);
+            this.comboBoxMonth.Location = new System.Drawing.Point(161, 86);
             this.comboBoxMonth.Name = "comboBoxMonth";
             this.comboBoxMonth.Size = new System.Drawing.Size(100, 24);
             this.comboBoxMonth.TabIndex = 0;
@@ -86,7 +100,7 @@
             // 
             this.tbMonth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tbMonth.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tbMonth.Location = new System.Drawing.Point(267, 62);
+            this.tbMonth.Location = new System.Drawing.Point(267, 86);
             this.tbMonth.Name = "tbMonth";
             this.tbMonth.Size = new System.Drawing.Size(40, 22);
             this.tbMonth.TabIndex = 1;
@@ -97,7 +111,7 @@
             this.radioButtonMonth.AutoSize = true;
             this.radioButtonMonth.Checked = true;
             this.radioButtonMonth.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.radioButtonMonth.Location = new System.Drawing.Point(161, 29);
+            this.radioButtonMonth.Location = new System.Drawing.Point(161, 53);
             this.radioButtonMonth.Name = "radioButtonMonth";
             this.radioButtonMonth.Size = new System.Drawing.Size(163, 20);
             this.radioButtonMonth.TabIndex = 15;
@@ -110,7 +124,7 @@
             // 
             this.radioButtonWeek.AutoSize = true;
             this.radioButtonWeek.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.radioButtonWeek.Location = new System.Drawing.Point(564, 29);
+            this.radioButtonWeek.Location = new System.Drawing.Point(564, 53);
             this.radioButtonWeek.Name = "radioButtonWeek";
             this.radioButtonWeek.Size = new System.Drawing.Size(174, 20);
             this.radioButtonWeek.TabIndex = 16;
@@ -133,7 +147,7 @@
             "Запросы        |",
             "",
             "Статистика  |"});
-            this.listBoxPath.Location = new System.Drawing.Point(25, 206);
+            this.listBoxPath.Location = new System.Drawing.Point(25, 230);
             this.listBoxPath.Name = "listBoxPath";
             this.listBoxPath.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.listBoxPath.Size = new System.Drawing.Size(829, 148);
@@ -145,7 +159,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(25, 184);
+            this.label1.Location = new System.Drawing.Point(25, 208);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(285, 16);
             this.label1.TabIndex = 29;
@@ -156,7 +170,7 @@
             this.dTP1.Enabled = false;
             this.dTP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dTP1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dTP1.Location = new System.Drawing.Point(589, 52);
+            this.dTP1.Location = new System.Drawing.Point(589, 76);
             this.dTP1.Name = "dTP1";
             this.dTP1.Size = new System.Drawing.Size(107, 22);
             this.dTP1.TabIndex = 33;
@@ -167,7 +181,7 @@
             this.dTP2.Enabled = false;
             this.dTP2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dTP2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dTP2.Location = new System.Drawing.Point(589, 78);
+            this.dTP2.Location = new System.Drawing.Point(589, 102);
             this.dTP2.Name = "dTP2";
             this.dTP2.Size = new System.Drawing.Size(107, 22);
             this.dTP2.TabIndex = 34;
@@ -177,7 +191,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(564, 56);
+            this.label2.Location = new System.Drawing.Point(564, 80);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(15, 16);
             this.label2.TabIndex = 35;
@@ -187,7 +201,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(564, 82);
+            this.label3.Location = new System.Drawing.Point(564, 106);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(24, 16);
             this.label3.TabIndex = 36;
@@ -197,7 +211,7 @@
             // 
             this.labelProgress.AutoSize = true;
             this.labelProgress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelProgress.Location = new System.Drawing.Point(25, 365);
+            this.labelProgress.Location = new System.Drawing.Point(25, 389);
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(285, 16);
             this.labelProgress.TabIndex = 38;
@@ -207,7 +221,7 @@
             // imgProgressBar_100
             // 
             this.imgProgressBar_100.Image = global::Statistics.Properties.Resources.progressBar_100_final;
-            this.imgProgressBar_100.Location = new System.Drawing.Point(26, 390);
+            this.imgProgressBar_100.Location = new System.Drawing.Point(26, 414);
             this.imgProgressBar_100.Name = "imgProgressBar_100";
             this.imgProgressBar_100.Size = new System.Drawing.Size(827, 10);
             this.imgProgressBar_100.TabIndex = 56;
@@ -217,13 +231,13 @@
             // btnCancel
             // 
             this.btnCancel.Image = global::Statistics.Properties.Resources.btn_cancel_normal;
-            this.btnCancel.Location = new System.Drawing.Point(342, 413);
+            this.btnCancel.Location = new System.Drawing.Point(342, 437);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(200, 57);
             this.btnCancel.TabIndex = 54;
             this.btnCancel.TabStop = false;
             this.btnCancel.Visible = false;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             this.btnCancel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnCancel_MouseDown);
             this.btnCancel.MouseEnter += new System.EventHandler(this.btnCancel_MouseEnter);
             this.btnCancel.MouseLeave += new System.EventHandler(this.btnCancel_MouseLeave);
@@ -231,13 +245,13 @@
             // btnStatistics
             // 
             this.btnStatistics.Image = global::Statistics.Properties.Resources.btn_statistics_normal;
-            this.btnStatistics.Location = new System.Drawing.Point(654, 124);
+            this.btnStatistics.Location = new System.Drawing.Point(654, 148);
             this.btnStatistics.Name = "btnStatistics";
             this.btnStatistics.Size = new System.Drawing.Size(200, 45);
             this.btnStatistics.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnStatistics.TabIndex = 53;
             this.btnStatistics.TabStop = false;
-            this.btnStatistics.Click += new System.EventHandler(this.btnStatistics_Click);
+            this.btnStatistics.Click += new System.EventHandler(this.BtnStatistics_Click);
             this.btnStatistics.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnStatistics_MouseDown);
             this.btnStatistics.MouseEnter += new System.EventHandler(this.btnStatistics_MouseEnter);
             this.btnStatistics.MouseLeave += new System.EventHandler(this.btnStatistics_MouseLeave);
@@ -245,13 +259,13 @@
             // btnVideotapes
             // 
             this.btnVideotapes.Image = global::Statistics.Properties.Resources.btn_videotapes_normal;
-            this.btnVideotapes.Location = new System.Drawing.Point(444, 124);
+            this.btnVideotapes.Location = new System.Drawing.Point(444, 148);
             this.btnVideotapes.Name = "btnVideotapes";
             this.btnVideotapes.Size = new System.Drawing.Size(200, 45);
             this.btnVideotapes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnVideotapes.TabIndex = 52;
             this.btnVideotapes.TabStop = false;
-            this.btnVideotapes.Click += new System.EventHandler(this.btnVideotapes_Click);
+            this.btnVideotapes.Click += new System.EventHandler(this.BtnVideotapes_Click);
             this.btnVideotapes.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnVideotapes_MouseDown);
             this.btnVideotapes.MouseEnter += new System.EventHandler(this.btnVideotapes_MouseEnter);
             this.btnVideotapes.MouseLeave += new System.EventHandler(this.btnVideotapes_MouseLeave);
@@ -259,13 +273,13 @@
             // btnKPI
             // 
             this.btnKPI.Image = global::Statistics.Properties.Resources.btn_kpi_normal;
-            this.btnKPI.Location = new System.Drawing.Point(235, 124);
+            this.btnKPI.Location = new System.Drawing.Point(235, 148);
             this.btnKPI.Name = "btnKPI";
             this.btnKPI.Size = new System.Drawing.Size(200, 45);
             this.btnKPI.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnKPI.TabIndex = 51;
             this.btnKPI.TabStop = false;
-            this.btnKPI.Click += new System.EventHandler(this.btnKPI_Click);
+            this.btnKPI.Click += new System.EventHandler(this.BtnKPI_Click);
             this.btnKPI.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnKPI_MouseDown);
             this.btnKPI.MouseEnter += new System.EventHandler(this.btnKPI_MouseEnter);
             this.btnKPI.MouseLeave += new System.EventHandler(this.btnKPI_MouseLeave);
@@ -273,13 +287,13 @@
             // btn30m
             // 
             this.btn30m.Image = global::Statistics.Properties.Resources.btn_cars_normal;
-            this.btn30m.Location = new System.Drawing.Point(25, 124);
+            this.btn30m.Location = new System.Drawing.Point(25, 148);
             this.btn30m.Name = "btn30m";
             this.btn30m.Size = new System.Drawing.Size(200, 45);
             this.btn30m.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btn30m.TabIndex = 50;
             this.btn30m.TabStop = false;
-            this.btn30m.Click += new System.EventHandler(this.btn30m_Click);
+            this.btn30m.Click += new System.EventHandler(this.Btn30m_Click);
             this.btn30m.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn30m_MouseDown);
             this.btn30m.MouseEnter += new System.EventHandler(this.btn30m_MouseEnter);
             this.btn30m.MouseLeave += new System.EventHandler(this.btn30m_MouseLeave);
@@ -287,13 +301,13 @@
             // btnCalculate
             // 
             this.btnCalculate.Image = global::Statistics.Properties.Resources.btn_calculate_normal;
-            this.btnCalculate.Location = new System.Drawing.Point(342, 413);
+            this.btnCalculate.Location = new System.Drawing.Point(342, 437);
             this.btnCalculate.Name = "btnCalculate";
             this.btnCalculate.Size = new System.Drawing.Size(200, 57);
             this.btnCalculate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnCalculate.TabIndex = 49;
             this.btnCalculate.TabStop = false;
-            this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
+            this.btnCalculate.Click += new System.EventHandler(this.BtnCalculate_Click);
             this.btnCalculate.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnCalculate_MouseDown);
             this.btnCalculate.MouseEnter += new System.EventHandler(this.btnCalculate_MouseEnter);
             this.btnCalculate.MouseLeave += new System.EventHandler(this.btnCalculate_MouseLeave);
@@ -301,19 +315,130 @@
             // imgProgressBar_0
             // 
             this.imgProgressBar_0.Image = global::Statistics.Properties.Resources.progressBar_0;
-            this.imgProgressBar_0.Location = new System.Drawing.Point(25, 389);
+            this.imgProgressBar_0.Location = new System.Drawing.Point(25, 413);
             this.imgProgressBar_0.Name = "imgProgressBar_0";
             this.imgProgressBar_0.Size = new System.Drawing.Size(829, 12);
             this.imgProgressBar_0.TabIndex = 55;
             this.imgProgressBar_0.TabStop = false;
             this.imgProgressBar_0.Visible = false;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItem,
+            this.refItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(868, 24);
+            this.menuStrip1.TabIndex = 57;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuItem
+            // 
+            this.menuItem.AutoSize = false;
+            this.menuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateItem,
+            this.importCarsItem,
+            this.importKPIItem,
+            this.importVideotapesItem,
+            this.importStatisticsItem,
+            this.settingsItem,
+            this.exitItem});
+            this.menuItem.Name = "menuItem";
+            this.menuItem.Size = new System.Drawing.Size(80, 20);
+            this.menuItem.Text = "Меню";
+            // 
+            // updateItem
+            // 
+            this.updateItem.Name = "updateItem";
+            this.updateItem.Size = new System.Drawing.Size(268, 22);
+            this.updateItem.Text = "Обновить";
+            this.updateItem.Click += new System.EventHandler(this.UpdateItem_Click);
+            // 
+            // importCarsItem
+            // 
+            this.importCarsItem.Name = "importCarsItem";
+            this.importCarsItem.Size = new System.Drawing.Size(268, 22);
+            this.importCarsItem.Text = "Импортировать файл \"30м\"";
+            this.importCarsItem.Click += new System.EventHandler(this.ImportCarsItem_Click);
+            // 
+            // importKPIItem
+            // 
+            this.importKPIItem.Name = "importKPIItem";
+            this.importKPIItem.Size = new System.Drawing.Size(268, 22);
+            this.importKPIItem.Text = "Импортировать файл \"KPI\"";
+            this.importKPIItem.Click += new System.EventHandler(this.ImportKPIItem_Click);
+            // 
+            // importVideotapesItem
+            // 
+            this.importVideotapesItem.Name = "importVideotapesItem";
+            this.importVideotapesItem.Size = new System.Drawing.Size(268, 22);
+            this.importVideotapesItem.Text = "Импортировать файл \"Запросы\"";
+            this.importVideotapesItem.Click += new System.EventHandler(this.ImportVideotapesItem_Click);
+            // 
+            // importStatisticsItem
+            // 
+            this.importStatisticsItem.Name = "importStatisticsItem";
+            this.importStatisticsItem.Size = new System.Drawing.Size(268, 22);
+            this.importStatisticsItem.Text = "Импортировать файл \"Статистика\"";
+            this.importStatisticsItem.Click += new System.EventHandler(this.ImportStatisticsItem_Click);
+            // 
+            // settingsItem
+            // 
+            this.settingsItem.Name = "settingsItem";
+            this.settingsItem.Size = new System.Drawing.Size(268, 22);
+            this.settingsItem.Text = "Настройки";
+            this.settingsItem.Click += new System.EventHandler(this.SettingsItem_Click);
+            // 
+            // exitItem
+            // 
+            this.exitItem.Name = "exitItem";
+            this.exitItem.Size = new System.Drawing.Size(268, 22);
+            this.exitItem.Text = "Выход";
+            this.exitItem.Click += new System.EventHandler(this.ExitItem_Click);
+            // 
+            // refItem
+            // 
+            this.refItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manualItem,
+            this.aboutItem});
+            this.refItem.Name = "refItem";
+            this.refItem.Size = new System.Drawing.Size(65, 20);
+            this.refItem.Text = "Справка";
+            // 
+            // manualItem
+            // 
+            this.manualItem.Name = "manualItem";
+            this.manualItem.Size = new System.Drawing.Size(149, 22);
+            this.manualItem.Text = "Инструкция";
+            this.manualItem.Click += new System.EventHandler(this.ManualItem_Click);
+            // 
+            // aboutItem
+            // 
+            this.aboutItem.Name = "aboutItem";
+            this.aboutItem.Size = new System.Drawing.Size(149, 22);
+            this.aboutItem.Text = "О программе";
+            this.aboutItem.Click += new System.EventHandler(this.AboutItem_Click);
+            // 
+            // labelDebug
+            // 
+            this.labelDebug.AutoSize = true;
+            this.labelDebug.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelDebug.ForeColor = System.Drawing.Color.Gold;
+            this.labelDebug.Location = new System.Drawing.Point(25, 437);
+            this.labelDebug.Name = "labelDebug";
+            this.labelDebug.Size = new System.Drawing.Size(67, 16);
+            this.labelDebug.TabIndex = 58;
+            this.labelDebug.Text = "Отладка:";
+            this.labelDebug.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Green;
-            this.ClientSize = new System.Drawing.Size(868, 482);
+            this.ClientSize = new System.Drawing.Size(868, 506);
+            this.Controls.Add(this.labelDebug);
             this.Controls.Add(this.imgProgressBar_100);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnStatistics);
@@ -333,8 +458,10 @@
             this.Controls.Add(this.tbMonth);
             this.Controls.Add(this.comboBoxMonth);
             this.Controls.Add(this.imgProgressBar_0);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -347,6 +474,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.btn30m)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCalculate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgProgressBar_0)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -373,6 +502,19 @@
         private System.Windows.Forms.PictureBox btnCancel;
         private System.Windows.Forms.PictureBox imgProgressBar_0;
         private System.Windows.Forms.PictureBox imgProgressBar_100;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateItem;
+        private System.Windows.Forms.ToolStripMenuItem importCarsItem;
+        private System.Windows.Forms.ToolStripMenuItem importKPIItem;
+        private System.Windows.Forms.ToolStripMenuItem importVideotapesItem;
+        private System.Windows.Forms.ToolStripMenuItem importStatisticsItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsItem;
+        private System.Windows.Forms.ToolStripMenuItem exitItem;
+        private System.Windows.Forms.ToolStripMenuItem refItem;
+        private System.Windows.Forms.ToolStripMenuItem manualItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutItem;
+        private System.Windows.Forms.Label labelDebug;
     }
 }
 

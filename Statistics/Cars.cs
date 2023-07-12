@@ -9,6 +9,7 @@ namespace Statistics
 {
     public class Cars : DocumentsForStatistics
     {
+        public event EventHandler<string> CurrentRowChanged;
 
         //Автозагрузка файлов-----------------------------------------------------------------------------------------------
 
@@ -58,86 +59,51 @@ namespace Statistics
 
         //Подсчёт статистики за месяц---------------------------------------------------------------------------------------
 
-        public string CalculateMonth(Statistics statistics, string monthNum, bool cancel)
+        public string CalculateMonth(Statistics statistics, string monthNum)
         {
             statistics.CarsOneTime = 0;
             statistics.CarsPermanent = 0;
 
             string error = "";
-
-            if (cancel == true) return error = "cancel";
-
-            /* -- */
-            //Excel.Application app = new Excel.Application();
-            //Excel.Workbook ObjWorkBook = null;
-            //try
-            //{
-            //    ObjWorkBook = app.Workbooks.Open(Path);
-            //}
-            //catch
-            //{
-            //    return error = "Не удалось открыть файл '30м'. Возможно, он сейчас используется.";
-            //}
-            //Excel.Worksheet ObjWorkSheet = null;
-            ////Отключить отображение окон с сообщениями
-            //app.DisplayAlerts = false;
-            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);       
-
+          
             if (!OpenConnection())
             {
+                isWorking = false;
                 return "Не удалось открыть файл \"30м\". Возможно, он сейчас используется.";
             }
 
             for (int i = 2; i < 10000; i++)
-            {                            
+            {               
+                if (!isWorking)
+                {
+                    CloseConnection();
+                    return "cancel";
+                }
+
+                CurrentRowChanged?.Invoke(this, "Отладка: 30м. Подсчёт. Строка = " + i);
+
                 if (GetMonthNum(i, 1) == monthNum)
                 {
                     CalculateBaseMonth(i, statistics);
                 }
                 else if (ToString(i, 1) == "" && ToString(i + 1, 1) == "" && ToString(i + 2, 1) == "") break;
-            }
+            }           
 
-            try
-            {
-                book.Close();
-                app.Quit();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), ex.Source);
-            }
-
+            CloseConnection();
             return error;
         }
 
         //Подсчёт статистики за неделю--------------------------------------------------------------------------------------
 
-        public string CalculateWeek(Statistics statistics, string day1, string day2, string monthNum1, string monthNum2, string year1, string year2, bool cancel)
+        public string CalculateWeek(Statistics statistics, string day1, string day2, string monthNum1, string monthNum2, string year1, string year2)
         {
             statistics.CarDays = new List<CarDay>();
 
             string error = "";
 
-            if (cancel == true) return error = "cancel";
-
-            /* -- */
-            //Excel.Application app = new Excel.Application();
-            //Excel.Workbook ObjWorkBook = null;
-            //try
-            //{
-            //    ObjWorkBook = app.Workbooks.Open(Path);
-            //}
-            //catch
-            //{
-            //    return error = "Не удалось открыть файл '30м'. Возможно, он сейчас используется.";
-            //}
-            //Excel.Worksheet ObjWorkSheet = null;
-            ////Отключить отображение окон с сообщениями
-            //app.DisplayAlerts = false;
-            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
-
             if (!OpenConnection())
             {
+                isWorking = false;
                 return "Не удалось открыть файл \"30м\". Возможно, он сейчас используется.";
             }
 
@@ -146,6 +112,14 @@ namespace Statistics
                 //if (getMonthNum(ObjWorkSheet, i, 1) == monthNum && Contains(ObjWorkSheet, i, 7, "ПОСТ")) statistics.carsPermanent++;
                 //else if (getMonthNum(ObjWorkSheet, i, 1) == monthNum && Contains(ObjWorkSheet, i, 7, "РАЗ")) statistics.carsOneTime++;
                 //else if (ToString(ObjWorkSheet, i, 1) == "" && ToString(ObjWorkSheet, i + 1, 1) == "") break;
+               
+                if (!isWorking)
+                {
+                    CloseConnection();
+                    return "cancel";
+                }
+
+                CurrentRowChanged?.Invoke(this, "Отладка: 30м. Подсчёт. Строка = " + i);
 
                 if ( (monthNum1 != monthNum2 &&
                       ((GetYear(i, 1) == year1 &&
@@ -164,16 +138,7 @@ namespace Statistics
                 else if (ToString(i, 1) == "" && ToString(i + 1, 1) == "" && ToString(i + 2, 1) == "") break;
             }
 
-            try
-            {
-                book.Close();
-                app.Quit();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), ex.Source);
-            }
-
+            CloseConnection();
             return error;
         }
 

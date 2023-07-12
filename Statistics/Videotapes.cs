@@ -8,6 +8,8 @@ namespace Statistics
 {
     public class Videotapes : DocumentsForStatistics
     {
+        public event EventHandler<string> CurrentRowChanged;
+
         //Автозагрузка файлов-----------------------------------------------------------------------------------------------
 
         public string AutoImport(string sourceFolder, string keyFolder, string keyFile1, string keyFile2, string fullPath)
@@ -42,7 +44,7 @@ namespace Statistics
 
         //Подсчёт статистики за месяц---------------------------------------------------------------------------------------
 
-        public string CalculateMonth(Statistics statistics, string monthNum, bool cancel)
+        public string CalculateMonth(Statistics statistics, string monthNum)
         {
             statistics.Police = 0;
             statistics.AnotherOrg = 0;
@@ -51,33 +53,24 @@ namespace Statistics
             statistics.Usb = 0;
             statistics.Dvd = 0;
             statistics.DiskN = 0;
-            string error = "";
-
-            if (cancel == true) return error = "cancel";
-
-            /* -- */
-            //Excel.Application app = new Excel.Application();
-            //Excel.Workbook ObjWorkBook = null;
-            //try
-            //{
-            //    ObjWorkBook = app.Workbooks.Open(Path);
-            //}
-            //catch
-            //{
-            //    return error = "Не удалось открыть файл 'Запросы'. Возможно, он сейчас используется.";
-            //}
-            //Excel.Worksheet ObjWorkSheet = null;
-            ////Отключить отображение окон с сообщениями
-            //app.DisplayAlerts = false;
-            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
+            string error = "";      
             
             if (!OpenConnection())
             {
+                isWorking = false;
                 return "Не удалось открыть файл \"Запросы\". Возможно, он сейчас используется.";
             }
 
             for (int i = 2; i < 1000; i++)
-            {
+            {              
+                if (!isWorking)
+                {
+                    CloseConnection();
+                    return "cancel";
+                }
+
+                CurrentRowChanged?.Invoke(this, "Отладка: Запросы. Подсчёт. Строка = " + i);
+
                 if (GetMonthNum(i, 6) == monthNum)
                 {
                     CalculateBaseIssued(i, statistics);
@@ -89,22 +82,13 @@ namespace Statistics
                 else if (ToString(i, 5) == "" && ToString(i + 1, 5) == "" && ToString(i + 2, 5) == "") break;
             }
 
-            try
-            {
-                book.Close();
-                app.Quit();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), ex.Source);
-            }
-
+            CloseConnection();
             return error;
         }
 
         //Подсчёт статистики за неделю--------------------------------------------------------------------------------------
 
-        public string CalculateWeek(Statistics statistics, string day1, string day2, string monthNum1, string monthNum2, string year1, string year2, bool cancel)
+        public string CalculateWeek(Statistics statistics, string day1, string day2, string monthNum1, string monthNum2, string year1, string year2)
         {
             statistics.Police = 0;
             statistics.AnotherOrg = 0;
@@ -113,34 +97,25 @@ namespace Statistics
             statistics.Usb = 0;
             statistics.Dvd = 0;
             statistics.DiskN = 0;
-            string error = "";
-
-            if (cancel == true) return error = "cancel";
-
-            /* -- */
-            //Excel.Application app = new Excel.Application();
-            //Excel.Workbook ObjWorkBook = null;
-            //try
-            //{
-            //    ObjWorkBook = app.Workbooks.Open(Path);
-            //}
-            //catch
-            //{
-            //    return error = "Не удалось открыть файл 'Запросы'. Возможно, он сейчас используется.";
-            //}
-            //Excel.Worksheet ObjWorkSheet = null;
-            ////Отключить отображение окон с сообщениями
-            //app.DisplayAlerts = false;
-            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
+            string error = "";         
 
             if (!OpenConnection())
             {
+                isWorking = false;
                 return "Не удалось открыть файл \"Запросы\". Возможно, он сейчас используется.";
             }
 
             for (int i = 2; i < 10000; i++)
             {
-               if ((monthNum1 != monthNum2 &&
+                if (!isWorking)
+                {
+                    CloseConnection();
+                    return "cancel";
+                }
+
+                CurrentRowChanged?.Invoke(this, "Отладка: Запросы. Подсчёт. Строка = " + i);
+
+                if ((monthNum1 != monthNum2 &&
                   ((GetYear(i, 6) == year1 &&
                   GetMonthNum(i, 6) == monthNum1 && Convert.ToInt32(GetDay(i, 6)) >= Convert.ToInt32(day1)) ||
                   (GetYear(i, 6) == year2 &&
@@ -153,6 +128,7 @@ namespace Statistics
                 {
                     CalculateBaseIssued(i, statistics);
                 }
+
                 if ( 
                     (
                      monthNum1 != monthNum2 &&
@@ -174,19 +150,11 @@ namespace Statistics
                 {
                     CalculateBase(i, statistics);
                 }
+
                 else if (ToString(i, 5) == "" && ToString(i + 1, 5) == "" && ToString(i + 2, 5) == "") break;
             }
 
-            try
-            {
-                book.Close();
-                app.Quit();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), ex.Source);
-            }
-
+            CloseConnection();
             return error;
         }
 
@@ -207,13 +175,11 @@ namespace Statistics
 
         private void CalculateBaseIssued(int i, Statistics statistics)
         {
-            if (!Contains(i, 7, "ПОВТОР") && !Contains(i, 8, "ПОВТОР"))
+            if (!Contains(i, 8, "ПОВТОР"))
             {
-                if (Contains(i, 7, "USB") || Contains(i, 8, "USB")) statistics.Usb++;
-                else if (Contains(i, 7, "ДИСК N") || Contains(i, 8, "ДИСК N")) statistics.DiskN++;
-                else if (!Contains(i, 7, "ДИСК N") && !Contains(i, 8, "ДИСК N") &&
-                    (Contains(i, 7, "DVD") || Contains(i, 7, "CD") || Contains(i, 7, "ДИСК") ||
-                     Contains(i, 8, "DVD") || Contains(i, 8, "CD") || Contains(i, 8, "ДИСК"))) statistics.Dvd++;
+                if (Contains(i, 8, "USB")) statistics.Usb++;
+                else if (Contains(i, 8, "ДИСК N") || Contains(i, 8, "ДИСК M") || Contains(i, 8, "ДИСК М")) statistics.DiskN++;
+                else if (Contains(i, 8, "DVD") || Contains(i, 8, "CD") || Contains(i, 8, "ДИСК")) statistics.Dvd++;
             }
         }
 

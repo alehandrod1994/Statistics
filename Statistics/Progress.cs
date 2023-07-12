@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Statistics
+﻿namespace Statistics
 {
     public class Progress
     {
@@ -14,7 +12,7 @@ namespace Statistics
         public void Move(string action, string typeDoc)
         {
             StepNow++;
-            Text = "Шаг " + StepNow + " из " + StepLast + ": " + action + " " + typeDoc;
+            Text = $"Шаг {StepNow} из {StepLast}: {action} \"{typeDoc}\"";
             Value = 100 / StepLast * StepNow * 8;
         }
     }

@@ -91,6 +91,5 @@ namespace Statistics
                 Date2 = (DateTime.Now.AddDays(-3)).ToShortDateString();
             }
         }
-
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Threading;
+using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Statistics
@@ -9,10 +11,12 @@ namespace Statistics
         protected Excel.Workbook book;
         protected Excel.Worksheet sheet;
 
+        protected bool isWorking = false;
+
         public DocumentsForStatistics() => Path = "";
 
         public string Path { get; set; }
-        public string FileName { get; set; }
+        public string FileName { get; set; }       
 
         /// <summary>
 		/// Открывает подключение к документу.
@@ -20,6 +24,8 @@ namespace Statistics
 		/// <returns> True, если подключение прошло успешно; в противном случае - false. </returns>
         protected bool OpenConnection()
         {
+            isWorking = true;
+
             app = new Excel.Application();
             book = null;
 
@@ -43,6 +49,8 @@ namespace Statistics
         /// <returns> True, если закрытие подключения прошло успешно; в противном случае - false. </returns>
         protected bool CloseConnection()
         {
+            isWorking = false;
+
             try
             {
                 book.Close();
@@ -53,6 +61,11 @@ namespace Statistics
             {
                 return false;
             }
+        }
+
+        public void StopCalculate()
+        {
+            isWorking = false;
         }
 
         //Загрузка файлов---------------------------------------------------------------------------------------------------
@@ -156,42 +169,16 @@ namespace Statistics
 
         public string GetYear(int i, int j)
         {
-            string str;
-            
-            str = ToString(i, j);
-            
-            if (str != "")
-            {
-                str = str.Substring(6, 4);
-                if (str.Contains(" "))
-                {
-                    str = str.Remove(2);
-                    str = "20" + str;
-                }
-            }
-
-            return str;
+            DateTime date = Parser.ParseDateTime(ToString(i, j));
+            return date.Year.ToString();
         }
 
         //Возвращает дату----------------------------------------------------------------------------------------------------
 
         public string GetDate(int i, int j)
         {
-            string str;
-
-            str = ToString(i, j);
-
-            if (str != "")
-            {
-                str = str.Substring(0, 10);
-                if (str.Contains(" "))
-                {
-                    str = str.Remove(8);
-                    str = str.Insert(6, "20");
-                }
-            }
-
-            return str;
+            DateTime date = Parser.ParseDateTime(ToString(i, j));
+            return date.ToShortDateString();
         }
 
         //Поиск подстроки в строке------------------------------------------------------------------------------------------
@@ -205,7 +192,7 @@ namespace Statistics
 
         public string ToString(int i, int j)
         {
-            return ((Excel.Range)sheet.Cells[i, j]).Value?.ToString() ?? "";
+            return sheet.Cells[i, j].Value?.ToString() ?? "";
         }
 
         //Заполнение путей в listboxPath------------------------------------------------------------------------------------

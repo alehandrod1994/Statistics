@@ -26,29 +26,18 @@ namespace Statistics
 
         public string NewFileName { get; private set; }
         public string PathFolder { get; private set; }
+        public event EventHandler<string> CurrentRowChanged;
 
         //Автозагрузка файлов-----------------------------------------------------------------------------------------------
 
-        public string AutoImport(string sourceFolder, string keyFolder, string keyFile, string year, string fullPath)
+        public string AutoImport(string sourceFolder, string keyFile, string fullPath)
         {
-            string nextFolder = "";
             DirectoryInfo dir = new DirectoryInfo(sourceFolder);
-            foreach (DirectoryInfo directory in dir.GetDirectories())
-            {
-                if (directory.Name.ToUpper().Contains(keyFolder) && directory.Name.ToUpper().Contains(year))
-                {
-                    nextFolder = directory.Name;
-
-                    break;
-                }
-            }
-
-            dir = new DirectoryInfo(sourceFolder + nextFolder);
             foreach (FileInfo file in dir.GetFiles())
             {
                 if (file.Name.ToUpper() == keyFile + ".XLSX" && !file.Name.Contains("$"))
                 {
-                    Path = sourceFolder + nextFolder + @"\" + file.Name;
+                    Path = sourceFolder + @"\" + file.Name;
                     FileName = file.Name;
                     fullPath = FillingPaths(fullPath, Path);
 
@@ -61,32 +50,14 @@ namespace Statistics
 
         //Статистика за месяц-----------------------------------------------------------------------------------------------
 
-        public string CalculateMonth(string monthNum, string month, string year, bool cancel)
+        public string CalculateMonth(string monthNum, string month, string year)
         {
             string error = "";
-
-            if (cancel == true) return error = "cancel";
-
-            //Excel.Application app = new Excel.Application();
-            //Excel.Workbook ObjWorkBook = null;
-            //try
-            //{
-            //    ObjWorkBook = app.Workbooks.Open(Path);
-            //}
-            //catch
-            //{
-            //    return error = "Не удалось открыть файл 'Статистика'. Возможно, он сейчас используется.";
-            //}
-            //Excel.Worksheet ObjWorkSheet = null;
-            ////Отключить отображение окон с сообщениями
-            //app.DisplayAlerts = false;
-            int row;
-
-            //Возврат на лист "Общая"
-            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
+            int row;                
 
             if (!OpenConnection())
             {
+                isWorking = false;
                 return "Не удалось открыть файл \"Статистика\". Возможно, он сейчас используется.";
             }
 
@@ -94,6 +65,14 @@ namespace Statistics
             row = 0;
             for (int i = 1; i < 1000; i++)
             {
+                if (!isWorking)
+                {
+                    CloseConnection();
+                    return "cancel";
+                }
+
+                CurrentRowChanged?.Invoke(this, "Отладка: Статистика. Поиск. Строка = " + i);
+
                 if (Contains(i, 1, year))
                 {
                     row = i;
@@ -112,62 +91,58 @@ namespace Statistics
                 row = 1;
             }
 
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "БЕСХОЗ", Beshoz.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "РАЗОВ", CarsOneTime.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "ПОСТОЯН", CarsPermanent.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "АБ/ТБ", Abtb.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "МВД", Police.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "СТОРОН", AnotherOrg.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "А/П", Airport.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "ТРУД", TrudRas.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "ПРОСМОТР", Viewing.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "USB", Usb.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "DVD", Dvd.ToString());
-                InsertData(row, Convert.ToInt32(monthNum) + 1, "ДИСК N", DiskN.ToString());
+            CurrentRowChanged?.Invoke(this, "Отладка: Статистика. Вставка. Строка = " + Convert.ToInt32(monthNum) + 1);
+
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "БЕСХОЗ", Beshoz.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "РАЗОВ", CarsOneTime.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "ПОСТОЯН", CarsPermanent.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "АБ/ТБ", Abtb.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "МВД", Police.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "СТОРОН", AnotherOrg.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "А/П", Airport.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "ТРУД", TrudRas.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "ПРОСМОТР", Viewing.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "USB", Usb.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "DVD", Dvd.ToString());
+            InsertData(row, Convert.ToInt32(monthNum) + 1, "ДИСК N", DiskN.ToString());
+
+            if (!isWorking)
+            {
+                CloseConnection();
+                return "cancel";
+            }
 
             //Сохранить                       
             string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
             PathFolder = GetPathFolder();
             NewFileName = "Статистика_" + month + "_" + year + ".xlsx";
+           
+            if (!Save())
+            {
+                CloseConnection();
+                return "Не удалось сохранить файл \"Статистика\"";
+            }
 
-            error = Save(error);
-
+            CloseConnection();
             ReplaceFiles(date);
-
             return error;
         }
 
         //Статистика за неделю----------------------------------------------------------------------------------------------
 
-        public string CalculateWeek(string day1, string day2, string monthNum1, string monthNum2, string month, string year1, string year2, bool cancel)
+        public string CalculateWeek(string day1, string day2, string monthNum1, string monthNum2, string month, string year1, string year2)
         {
             string error = "";
-
-            if (cancel == true) return error = "cancel";
-
-            //Excel.Application app = new Excel.Application();
-            //Excel.Workbook ObjWorkBook = null;
-            //try
-            //{
-            //    ObjWorkBook = app.Workbooks.Open(Path);
-            //}
-            //catch
-            //{
-            //    return error = "Не удалось открыть файл 'Статистика'. Возможно, он сейчас используется.";
-            //}
-            //Excel.Worksheet ObjWorkSheet = null;
-            ////Отключить отображение окон с сообщениями
-            //app.DisplayAlerts = false;
-
-            if (!OpenConnection())
-            {
-                return "Не удалось открыть файл \"Статистика\". Возможно, он сейчас используется.";
-            }
-
             int row = 0;
             int rowCars = 0;
             int rowCopy = 0;
-            int rowPaste = 0;
+            int rowPaste = 0;        
+
+            if (!OpenConnection())
+            {
+                isWorking = false;
+                return "Не удалось открыть файл \"Статистика\". Возможно, он сейчас используется.";
+            }            
 
             //Меняем на лист "За неделю"
             sheet = SearchPage("За неделю");
@@ -183,6 +158,14 @@ namespace Statistics
                 //Вставить таблицу за неделю
                 for (int i = 1; i < 10000; i++)
                 {
+                    if (!isWorking)
+                    {
+                        CloseConnection();
+                        return "cancel";
+                    }
+
+                    CurrentRowChanged?.Invoke(this, "Отладка: Статистика. Поиск. Строка = " + i);
+
                     if (ToString(i, 1) == "" && ToString(i + 1, 1) == "" && ToString(i + 2, 1) == "" &&
                         ToString(i + 3, 1) == "" && ToString(i + 4, 1) == "" && ToString(i + 5, 1) == "" &&
                         ToString(i + 6, 1) == "" && ToString(i + 7, 1) == "" && ToString(i + 8, 1) == "")
@@ -208,6 +191,8 @@ namespace Statistics
             sheet.Cells[rowPaste, 1] = day1 + "." + monthNum1 + "." + year1 + "-" + day2 + "." + monthNum2 + "." + year2;
             sheet.Cells[rowPaste + 2, 1] = month;
 
+            CurrentRowChanged?.Invoke(this, "Отладка: Статистика. Вставка. Строка = " + rowPaste + 2);
+
             InsertData(rowPaste, 2, "МВД", Police.ToString());
             InsertData(rowPaste, 2, "СТОРОН", AnotherOrg.ToString());
             InsertData(rowPaste, 2, "А/П", Airport.ToString());
@@ -222,16 +207,26 @@ namespace Statistics
             {
                 DrawBorders(rowPaste + 3, "I", rowPaste + CarDays.Count + 1, "I");
             }
-   
+
+            if (!isWorking)
+            {
+                CloseConnection();
+                return "cancel";
+            }
+
             //Сохранить                       
             string date = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
             PathFolder = GetPathFolder();
             NewFileName = "Статистика_" + day1 + "." + monthNum1 + ".-" + day2 + "." + monthNum2 + "." + year2 + ".xlsx";
 
-            error = Save(error);
+            if (!Save())
+            {
+                CloseConnection();
+                return "Не удалось сохранить файл \"Статистика\"";
+            }
 
+            CloseConnection();
             ReplaceFiles(date);
-
             return error;
         }
 
@@ -250,42 +245,31 @@ namespace Statistics
 
         //Сохранить---------------------------------------------------------------------------------------------------------
 
-        private string Save(string error)
+        private bool Save()
         {
             try
             {
                 book.SaveAs(PathFolder + NewFileName);
+                return true;
             }
             catch
             {
-                error = "Не удалось сохранить файл 'Статистика'";
-            }
-
-            try
-            {
-                book.Close();
-                app.Quit();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), ex.Source);
-            }
-
-            return error;
+                return false;
+            }            
         }
 
         //Вернуть имя файла-------------------------------------------------------------------------------------------------
 
         private string GetFileName()
         {
-            int lastIndex = TrimPathFolderAndFIle();
+            int lastIndex = TrimPathFolderAndFile();
 
             return Path.Remove(0, lastIndex + 1);
         }
 
         //Разделить путь файла и папок--------------------------------------------------------------------------------------
 
-        private int TrimPathFolderAndFIle()
+        private int TrimPathFolderAndFile()
         {
             int index = 0;
             int lastIndex = -1;
@@ -306,7 +290,7 @@ namespace Statistics
 
         private string GetPathFolder()
         {
-            int lastIndex = TrimPathFolderAndFIle();
+            int lastIndex = TrimPathFolderAndFile();
 
             return Path.Remove(lastIndex + 1);
         }

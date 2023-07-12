@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Statistics
 {
@@ -14,26 +15,33 @@ namespace Statistics
         private Statistics _statistics;
         private Date _date;
         private Progress _progress;
+        private Settings _settings;
 
         public Form1()
         {
             InitializeComponent();
 
-            _cars = new Cars();
-            _kpi = new KPI();
-            _videotapes = new Videotapes();
-            _statistics = new Statistics();
-            _date = new Date();
-
+            CreateSourceData();
             AutoImportDate();
             AutoImportDocuments();
         }
 
         public string NewPath { get; private set; }
-        public bool Cancel { get; private set; }
         public string ErrorDescription { get; private set; }
         public string ErrorTitle { get; private set; }
         public int ErrorTitleHeight { get; private set; }
+        public event Action SetOnOtherUi;
+        public event Action SetOffOtherUi;
+
+        private void CreateSourceData()
+        {
+            _cars = new Cars();
+            _kpi = new KPI();
+            _videotapes = new Videotapes();
+            _statistics = new Statistics();
+            _date = new Date();
+            _settings = new Settings();
+        }
 
         //Автозагрузка дат--------------------------------------------------------------------------------------------------
         private void AutoImportDate()
@@ -83,8 +91,8 @@ namespace Statistics
             catch {}
 
             try
-            {               
-                listBoxPath.Items[6] = _statistics.AutoImport(@"C:\Users\gpu\Desktop\", "СТАТИСТИКА", "СТАТИСТИКА", _date.Year1, listBoxPath.Items[6].ToString());
+            {
+                listBoxPath.Items[6] = _statistics.AutoImport(Application.StartupPath, "СТАТИСТИКА", listBoxPath.Items[6].ToString());
             }
             catch { }
         }
@@ -111,7 +119,7 @@ namespace Statistics
 
             if ( (radioButtonWeek.Checked && dTP1.Value > dTP2.Value) || (radioButtonMonth.Checked && CheckDateMonth() == false) )
             {                 
-                FormErrorShow("Неверно задана дата", 27, "");
+                ShowFormError("Неверно задана дата", 27, "");
                 return false;               
             }
 
@@ -128,7 +136,7 @@ namespace Statistics
 
             if (ErrorDescription != "")
             {
-                FormErrorShow("Не загружены файлы:", 27, ErrorDescription);
+                ShowFormError("Не загружены файлы:", 27, ErrorDescription);
                 return false;
             }
 
@@ -139,9 +147,9 @@ namespace Statistics
         {
             if (ErrorTitle != "")
             {
-                CalculateStop();
+                SetUiForEndCalculate();
                 if (ErrorTitle != "cancel")
-                    FormErrorShow(ErrorTitle, 67, "");
+                    ShowFormError(ErrorTitle, 67, "");
                 return false;
             }
             else return true;
@@ -149,13 +157,13 @@ namespace Statistics
 
         //Открыть форму для вывода ошибок-----------------------------------------------------------------------------------
 
-        private void FormErrorShow(string _errorTitle, int _errorTitleHeight, string _errorDescription)
+        private void ShowFormError(string errorTitle, int errorTitleHeight, string errorDescription)
         {
-            FormError FormError = new FormError();
-            ErrorTitle = _errorTitle;
-            ErrorTitleHeight = _errorTitleHeight;
-            ErrorDescription = _errorDescription;
-            FormError.Show(this);
+            var form = new FormError();
+            ErrorTitle = errorTitle;
+            ErrorTitleHeight = errorTitleHeight;
+            ErrorDescription = errorDescription;
+            form.Show(this);
         }
 
         //Движение полосы загрузки и текст----------------------------------------------------------------------------------
@@ -171,9 +179,7 @@ namespace Statistics
 
         public async Task CalculateMonthAsync()
         {
-            CalculateStart(4);
-
-            Cancel = false;
+            SetUiForStartCalculate(4);
 
             _date.Month = comboBoxMonth.Text;
             _date.MonthNum1 = (comboBoxMonth.SelectedIndex + 1).ToString();
@@ -183,24 +189,23 @@ namespace Statistics
                 _date.MonthNum1 = "0" + _date.MonthNum1;
             }
 
-            ProgressMove("Подсчёт", "'30м'");
-            //errorTitle = cars.CalculateMonth(statistics, date.monthNum1, cancel);
-            ErrorTitle = await Task.Run(() => _cars.CalculateMonth(_statistics, _date.MonthNum1, Cancel));
+            ProgressMove("Подсчёт", "30м");
+            ErrorTitle = await Task.Run(() => _cars.CalculateMonth(_statistics, _date.MonthNum1));
             if (!CheckCalculateErrors()) return;
 
-            ProgressMove("Подсчёт", "'KPI'");
-            ErrorTitle = await Task.Run(() => _kpi.CalculateMonth(_statistics, Cancel));
+            ProgressMove("Подсчёт", "KPI");
+            ErrorTitle = await Task.Run(() => _kpi.CalculateMonth(_statistics));
             if (!CheckCalculateErrors()) return;
  
-            ProgressMove("Подсчёт", "'Запросов'");
-            ErrorTitle = await Task.Run(() => _videotapes.CalculateMonth(_statistics, _date.MonthNum1, Cancel));
+            ProgressMove("Подсчёт", "Запросов");
+            ErrorTitle = await Task.Run(() => _videotapes.CalculateMonth(_statistics, _date.MonthNum1));
             if (!CheckCalculateErrors()) return;
 
-            ProgressMove("Сохранение", "'Статистики'");
-            ErrorTitle = await Task.Run(() => _statistics.CalculateMonth(_date.MonthNum1, _date.Month, _date.Year1, Cancel));
+            ProgressMove("Сохранение", "Статистики");
+            ErrorTitle = await Task.Run(() => _statistics.CalculateMonth(_date.MonthNum1, _date.Month, _date.Year1));
             if (!CheckCalculateErrors()) return;
 
-            CalculateStop();
+            SetUiForEndCalculate();
 
             FormSuccessfullyShow();
         }     
@@ -209,9 +214,7 @@ namespace Statistics
 
         public async Task CalculateWeekAsync()
         {
-            CalculateStart(3);
-
-            Cancel = false;
+            SetUiForStartCalculate(3);
 
             _date.Day1 = dTP1.Text.Substring(0, 2);
             _date.MonthNum1 = dTP1.Text.Substring(3, 2);
@@ -223,26 +226,26 @@ namespace Statistics
 
             _date.Month = comboBoxMonth.Items[Convert.ToInt32(_date.MonthNum2) - 1].ToString();
 
-            ProgressMove("Подсчёт", "'30м'");
-            ErrorTitle = await Task.Run(() => _cars.CalculateWeek(_statistics, _date.Day1, _date.Day2, _date.MonthNum1, _date.MonthNum2, _date.Year1, _date.Year2, Cancel));
+            ProgressMove("Подсчёт", "30м");
+            ErrorTitle = await Task.Run(() => _cars.CalculateWeek(_statistics, _date.Day1, _date.Day2, _date.MonthNum1, _date.MonthNum2, _date.Year1, _date.Year2));
             if (!CheckCalculateErrors()) return;
 
-            ProgressMove("Подсчёт", "'Запросов'");
-            ErrorTitle = await Task.Run(() => _videotapes.CalculateWeek(_statistics, _date.Day1, _date.Day2, _date.MonthNum1, _date.MonthNum2, _date.Year1, _date.Year2, Cancel));
+            ProgressMove("Подсчёт", "Запросов");
+            ErrorTitle = await Task.Run(() => _videotapes.CalculateWeek(_statistics, _date.Day1, _date.Day2, _date.MonthNum1, _date.MonthNum2, _date.Year1, _date.Year2));
             if (!CheckCalculateErrors()) return;
 
-            ProgressMove("Сохранение", "'Статистики'");
-            ErrorTitle = await Task.Run(() => _statistics.CalculateWeek(_date.Day1, _date.Day2, _date.MonthNum1, _date.MonthNum2, _date.Month, _date.Year1, _date.Year2, Cancel));
+            ProgressMove("Сохранение", "Статистики");
+            ErrorTitle = await Task.Run(() => _statistics.CalculateWeek(_date.Day1, _date.Day2, _date.MonthNum1, _date.MonthNum2, _date.Month, _date.Year1, _date.Year2));
             if (!CheckCalculateErrors()) return;
 
-            CalculateStop();
+            SetUiForEndCalculate();
 
             FormSuccessfullyShow();
         }
 
         //Начало подсчёта---------------------------------------------------------------------------------------------------
 
-        private void CalculateStart(int countDoc)
+        private void SetUiForStartCalculate(int countDoc)
         {
             _progress.StepLast = countDoc;
 
@@ -257,11 +260,14 @@ namespace Statistics
             btnStatistics.Enabled = false;
             btnCancel.Visible = true;
             btnCalculate.Visible = false;
+            menuStrip1.Enabled = false;
+
+            SetOnOtherUi?.Invoke();
         }
 
         //Конец подсчёта----------------------------------------------------------------------------------------------------
 
-        private void CalculateStop()
+        private void SetUiForEndCalculate()
         {
             labelProgress.Visible = false;
             imgProgressBar_0.Visible = false;
@@ -273,6 +279,9 @@ namespace Statistics
             btnStatistics.Enabled = true;
             btnCalculate.Visible = true;
             btnCancel.Visible = false;
+            menuStrip1.Enabled = true;
+
+            SetOffOtherUi?.Invoke();
         }
 
         //Открыть форму для уведомлений-------------------------------------------------------------------------------------
@@ -284,9 +293,25 @@ namespace Statistics
             FormSuccessfully.Show(this);
         }
 
+        private void SetOnDebugUi()
+        {
+            labelDebug.Text = "Отладка:";
+            labelDebug.Visible = true;
+        }
+
+        private void SetOffDebugUi()
+        {
+            labelDebug.Visible = false;
+        }
+
+        private void Document_CurrentRowChanged(object sender, string e)
+        {
+            labelDebug.Invoke((Action)delegate { labelDebug.Text = e; });
+        }
+
         //События при нажатии кнопок----------------------------------------------------------------------------------------
 
-        private void btnCalculate_Click(object sender, EventArgs e)
+        private void BtnCalculate_Click(object sender, EventArgs e)
         {
             if (!CheckingForErrors())
             {
@@ -302,33 +327,61 @@ namespace Statistics
             else CalculateWeekAsync();           
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void StopCalculate()
         {
-            Cancel = true;
+            _cars.StopCalculate();
+            _kpi.StopCalculate();
+            _videotapes.StopCalculate();
+            _statistics.StopCalculate();
         }
 
-        private void btn30m_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            StopCalculate();
+        }
+
+        private void ImportCars()
         {
             listBoxPath.Items[0] = _cars.Import(listBoxPath.Items[0].ToString());
         }
 
-        private void btnKPI_Click(object sender, EventArgs e)
+        private void ImportKPI()
         {
             if (radioButtonMonth.Checked)
             {
                 listBoxPath.Items[2] = _kpi.Import(listBoxPath.Items[2].ToString());
             }
-            else FormErrorShow("При выборе формата 'Статистика за неделю' загрузка данного файла не требуется", 67, "");
+            else ShowFormError("При выборе формата 'Статистика за неделю' загрузка данного файла не требуется", 67, "");
         }
 
-        private void btnVideotapes_Click(object sender, EventArgs e)
-        {          
+        private void ImportVideotapes()
+        {
             listBoxPath.Items[4] = _videotapes.Import(listBoxPath.Items[4].ToString());
         }
 
-        private void btnStatistics_Click(object sender, EventArgs e)
-        {           
+        private void ImportStatistics()
+        {
             listBoxPath.Items[6] = _statistics.Import(listBoxPath.Items[6].ToString());
+        }
+
+        private void Btn30m_Click(object sender, EventArgs e)
+        {
+            ImportCars();
+        }      
+
+        private void BtnKPI_Click(object sender, EventArgs e)
+        {
+            ImportKPI();
+        }
+
+        private void BtnVideotapes_Click(object sender, EventArgs e)
+        {
+            ImportVideotapes();
+        }
+
+        private void BtnStatistics_Click(object sender, EventArgs e)
+        {
+            ImportStatistics();
         }
 
         private void radioButtonMonth_CheckedChanged(object sender, EventArgs e)
@@ -462,6 +515,101 @@ namespace Statistics
         private void btnCancel_MouseDown(object sender, MouseEventArgs e)
         {
             btnCancel.Image = Properties.Resources.btn_cancel_down;
+        }
+
+        private void UpdateItem_Click(object sender, EventArgs e)
+        {
+            CreateSourceData();
+
+            listBoxPath.Items[0] = _cars.FillingPaths(listBoxPath.Items[0].ToString(), "");
+            if (radioButtonMonth.Checked)
+            {
+                listBoxPath.Items[2] = _kpi.FillingPaths(listBoxPath.Items[2].ToString(), "");
+            }
+            listBoxPath.Items[4] = _videotapes.FillingPaths(listBoxPath.Items[4].ToString(), "");
+            listBoxPath.Items[6] = _statistics.FillingPaths(listBoxPath.Items[6].ToString(), "");
+        }
+
+        private void ImportCarsItem_Click(object sender, EventArgs e)
+        {
+            ImportCars();
+        }
+
+        private void ImportKPIItem_Click(object sender, EventArgs e)
+        {
+            ImportKPI();
+        }
+
+        private void ImportVideotapesItem_Click(object sender, EventArgs e)
+        {
+            ImportVideotapes();
+        }
+
+        private void ImportStatisticsItem_Click(object sender, EventArgs e)
+        {
+            ImportStatistics();
+        }
+
+        private void SettingsItem_Click(object sender, EventArgs e)
+        {
+            ShowSettingsForm();
+        }
+
+        private void ShowSettingsForm()
+        {
+            var form = new FormSettings(new Settings(_settings.Debug));
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                if (_settings.Debug != form.Settings.Debug)
+                {
+                    if (form.Settings.Debug)
+                    {
+                        _cars.CurrentRowChanged += Document_CurrentRowChanged;
+                        _kpi.CurrentRowChanged += Document_CurrentRowChanged;
+                        _videotapes.CurrentRowChanged += Document_CurrentRowChanged;
+                        _statistics.CurrentRowChanged += Document_CurrentRowChanged;
+                        SetOnOtherUi += SetOnDebugUi;
+                        SetOffOtherUi += SetOffDebugUi;
+                    }
+                    else
+                    {
+                        _cars.CurrentRowChanged -= Document_CurrentRowChanged;
+                        _kpi.CurrentRowChanged -= Document_CurrentRowChanged;
+                        _videotapes.CurrentRowChanged -= Document_CurrentRowChanged;
+                        _statistics.CurrentRowChanged -= Document_CurrentRowChanged;
+                        SetOnOtherUi -= SetOnDebugUi;
+                        SetOffOtherUi -= SetOffDebugUi;
+                    }
+                }
+
+                _settings = form.Settings;
+            }
+        }
+
+        private void ExitItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ManualItem_Click(object sender, EventArgs e)
+        {
+            string path = "Подсчёт статистики. Инструкция по эксплуатации для ГПУ ОТБ.docx";
+
+            try
+            {
+                Process.Start(path);
+            }
+            catch
+            {
+                ShowFormError("Не удалось открыть инструкцию", 27, "");
+            }
+
+        }
+
+        private void AboutItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormAbout();
+            form.Show();
         }
     }
 }

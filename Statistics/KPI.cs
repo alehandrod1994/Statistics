@@ -9,6 +9,7 @@ namespace Statistics
 {
     public class KPI : DocumentsForStatistics
     {
+        public event EventHandler<string> CurrentRowChanged;
 
         //Автозагрузка файлов-----------------------------------------------------------------------------------------------
 
@@ -70,38 +71,29 @@ namespace Statistics
 
         //Подсчёт статистики за месяц---------------------------------------------------------------------------------------
 
-        public string CalculateMonth(Statistics statistics, bool cancel)
+        public string CalculateMonth(Statistics statistics)
         {
             statistics.Beshoz = 0;
             statistics.Abtb = 0;
             statistics.TrudRas = 0;
-            string error = "";
-
-            if (cancel == true) return error = "cancel";
-
-            /* -- */
-            //Excel.Application app = new Excel.Application();
-            //Excel.Workbook ObjWorkBook = null;
-            //try
-            //{
-            //    ObjWorkBook = app.Workbooks.Open(Path);
-            //}
-            //catch
-            //{
-            //    return error = "Не удалось открыть файл 'KPI'. Возможно, он сейчас используется.";
-            //}
-            //Excel.Worksheet ObjWorkSheet = null;
-            ////Отключить отображение окон с сообщениями
-            //app.DisplayAlerts = false;
-            //ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets.get_Item(1);
+            string error = "";        
 
             if (!OpenConnection())
             {
+                isWorking = false;
                 return "Не удалось открыть файл \"KPI\". Возможно, он сейчас используется.";
             }
 
             for (int i = 2; i < 50; i++)
             {
+                if (!isWorking)
+                {
+                    CloseConnection();
+                    return "cancel";
+                }
+
+                CurrentRowChanged?.Invoke(this, "Отладка: KPI. Подсчёт. Строка = " + i);
+
                 if (Contains(i, 2, "ИТОГО"))
                 {
                     statistics.Beshoz = Convert.ToInt32(ToString(i, 4));
@@ -112,18 +104,8 @@ namespace Statistics
                 }
             }
 
-            try
-            {
-                book.Close();
-                app.Quit();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), ex.Source);
-            }
-
+            CloseConnection();
             return error;
-        }      
-       
+        }            
     }
 }

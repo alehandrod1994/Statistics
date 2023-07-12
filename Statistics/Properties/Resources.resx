@@ -145,14 +145,17 @@
   <data name="btn_openFolder_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_openFolder_enter1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btn_kpi_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_kpi_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btn_ok_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_ok_normal1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_close_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_close_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btn_statistics_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_statistics_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btn_cancel_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_cancel_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn_kpi_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_kpi_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_cars" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_cars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -163,8 +166,11 @@
   <data name="btn_ok_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_ok_down1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btn_kpi_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_kpi_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btn_kpi_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_kpi_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn_open_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_open_down2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_videotapes_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_videotapes_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -175,8 +181,8 @@
   <data name="btn_calculate_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_calculate_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btn_cancel_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_cancel_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="progressBar_100_final" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\progressBar_100_final.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_videotapes_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_videotapes_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -190,23 +196,17 @@
   <data name="btn_cars_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_cars_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btn_ok_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_ok_normal1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="progressBar_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\progressBar_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btn_open_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_open_down2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="btn_calculate_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_calculate_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_cars_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_cars_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btn_cars_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_cars_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="btn_statistics_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_statistics_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="iconfinder_statistics_49565" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\iconfinder_statistics_49565.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_statistics1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_statistics1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -214,14 +214,14 @@
   <data name="btn_videotapes_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_videotapes_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="btn_open_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_open_normal1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="btn_close_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_close_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_close_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_close_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btn_open_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_open_normal1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_ok_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_ok_enter1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -229,7 +229,22 @@
   <data name="btn_cancel_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_cancel_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="progressBar_100_final" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\progressBar_100_final.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="progressBar_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\progressBar_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn_cars_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_cars_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="statistics" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\statistics.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn_save_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_save_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn_save_enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_save_enter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn_save_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\btn_save_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
